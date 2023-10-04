@@ -17,6 +17,7 @@ import random
 def home(request):
     images = Images.objects.all()
     latest_description_id = Feedback.objects.aggregate(Max('id'))['id__max']
+    description=None
     if latest_description_id:
         description = Feedback.objects.get(id=latest_description_id)
     else:
@@ -24,7 +25,6 @@ def home(request):
     if request.method=="POST":
         messages.success(request,"Result Send to Doctor")
         return render(request, 'website/home.html', {"images": images, "description": description})
-
 
     return render(request, 'website/home.html', {"images": images, "description": description})
 

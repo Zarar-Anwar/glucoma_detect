@@ -15639,12 +15639,12 @@ body.sal-disabled [data-sal|=flip] {
 }
 
 .rts-banner-area-one {
-  height: 1000px;
+  height: 650px;
   position: relative;
 }
 @media only screen and (max-width: 767px) {
   .rts-banner-area-one {
-    height: 730px;
+    height: 532px;
   }
 }
 .rts-banner-area-one .bottom-mid-img {
