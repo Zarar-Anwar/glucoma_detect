@@ -11,13 +11,12 @@ urlpatterns = [
 urlpatterns +=[
     path('user/login/', views.user_login, name='user-login'),
     path('user/signup/', views.user_signup, name='user-signup'),
+    path('user/logout/', views.user_logout, name='user-logout'),
 ]
 
 # Doctor Urls
 urlpatterns +=[
     path('doctor/view/',views.doctor,name='doctor'),
-    path('doctor/login/',views.CustomLoginView.as_view(),name='doctor-login'),
-    path('doctor/logout/',views.doctorLogout,name='logout'),
     path('doctor/add/description/',views.description,name='description'),
     path('test/',views.random_image_predictions,name='test-image'),
 

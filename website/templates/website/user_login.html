@@ -23,10 +23,13 @@ LOGIN
                             <h5 class="title">Login to continue</h5>
                         </div>
                         <div class="body">
-                            <form action="#" method="post">
+                            <form action="." method="POST">
+                                {% csrf_token %}
                                 <div class="input-wrapper">
-                                    <input type="email" placeholder="Enter your mail" required="">
-                                    <input type="password" placeholder="Password">
+                                    {{form.username.label_tag}}
+                                    {{form.username}}
+                                    {{form.password.label_tag}}
+                                    {{form.password}}
                                 </div>
                                 <button type="submit" class="rts-btn btn-primary">Sing In</button>
                                 <p>Don't have an account? <a class="ml--5" href="{% url 'user-signup' %}">Sign Up for Free</a></p>

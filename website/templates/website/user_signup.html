@@ -23,19 +23,13 @@ SIGN UP
                             <h5 class="title">Create an account</h5>
                         </div>
                         <div class="body">
-                            <form action="#">
+                            <form action="." method="POST">
+                                {% csrf_token %}
                                 <div class="input-wrapper">
-                                    <input type="text" placeholder="Full Name" required="">
-                                    <input type="email" placeholder="Enter your mail">
-                                    <input type="password" placeholder="Enter your Password">
-                                </div>
-                                <div class="check-wrapper">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            I agree to privacy policy &amp; terms
-                                        </label>
-                                    </div>
+                                    {{form.username}}
+                                    {{form.email}}
+                                    {{form.password1}}
+                                    {{form.password2}}
                                 </div>
                                 <button class="rts-btn btn-primary">Create Account</button>
                                 <p>If you have an account? <a class="ml--5" href="{% url 'user-login' %}">Sign in</a></p>

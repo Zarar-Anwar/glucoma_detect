@@ -1,8 +1,10 @@
 
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect,HttpResponseRedirect
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate,login,logout
 from django.db.models import Max
 from django.contrib import messages
-from .forms import DescriptionForm
+from .forms import DescriptionForm,UserCreation
 from .models import Images, Feedback, AI_Response
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
@@ -10,6 +12,7 @@ import tensorflow as tf
 import os
 from tensorflow import keras
 import random
+from .forms import UserLoginForm
 
 # Website----------------------------------------------------------------------------->
 
@@ -38,26 +41,43 @@ def website_about(request):
 
 # Login
 def user_login(request):
-    template_name='website/user_login.html'
-    return render(request,template_name)
+    if request.user.is_authenticated:
+        return HttpResponseRedirect("/")
+    else:
+        if request.method == "POST":
+            form = AuthenticationForm(request=request, data=request.POST)
+            if form.is_valid():
+                uname = form.cleaned_data['username']
+                upass = form.cleaned_data['password']
+                user = authenticate(username=uname, password=upass)
+                if user is not None:
+                    login(request, user)
+                    return HttpResponseRedirect("/")
+        else:
+            form = AuthenticationForm()
+
+        template_name = "website/user_login.html"
+        context = {"form": form}
+        return render(request, template_name, context)
 
 # SignUp
 def user_signup(request):
-    template_name='website/user_signup.html'
-    return render(request,template_name)
-
-
-
-# Doctor------------------------------------------------------------------------------>
-
-# Login
-class CustomLoginView(LoginView):
-    template_name = 'website/doctor_login.html'
+    fm = UserCreation(request.POST or None)
+    if fm.is_valid():
+        user =fm.save(commit=False)
+        user.is_user=True
+        user.save()
+        messages.success(request,"Registered SuccessFully")
+        return redirect('user-login')
+    template_name = 'website/user_signup.html'
+    context = {"form": fm}
+    return render(request, template_name, context)
 
 # Logout
-def doctorLogout(request):
+def user_logout(request):
     logout(request)
-    return redirect('home')
+    return HttpResponseRedirect('/user/login/')
+
 
 # View
 def doctor(request):
