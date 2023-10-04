@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/fav.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet preload" href="{% static 'css/plugins/fontawesome-6.css' %}" as="style">
+    <link rel="stylesheet preload" href="{% static 'css/plugins/unicons.css' %}" as="style">
+    <link rel="stylesheet preload" href="{% static 'css/plugins/swiper.min.css' %}" as="style">
+    <link rel="stylesheet preload" href="{% static 'css/vendor/metismenu.css' %}" as="style">
+    <link rel="stylesheet preload" href="{% static 'css/vendor/bootstrap.min.css' %}" as="style">
+
+    <!-- custom css style -->
+    <link rel="stylesheet preload" href="{% static 'css/style.css' %}" as="style">
+
+
+    {# TITLE---------------------------------------------------------------------------------------#}
+    <title>{% block title %} Home {% endblock title %}</title>
+
+    {#CSS------------------------------------------------------------------------------------------#}
+    {% block css %}
+
+    {% endblock css %}
+</head>
+<body style="background-color:#f8f9fa">
+
+{# NAVBAR--------------------------------------------------------------------------------------#}
+{% include 'website/include/Navbar.html' %}
+
+{# CONTENT-------------------------------------------------------------------------------------#}
+{% block content %} {% endblock content %}
+
+{% include 'website/include/Footer.html' %}
+{# Javascript----------------------------------------------------------------------------------#}
+{% block js %}
+
+{% endblock js %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="{% static 'js/vendor/jquery.min.js' %}" defer></script>
+<script src="{% static 'js/vendor/metismenu.js' %}" defer></script>
+<script src="{% static 'js/plugins/bootstrap.min.js' %}" defer></script>
+<script src="{% static 'js/plugins/swiper.js' %}" defer></script>
+<script src="{% static 'js/plugins/contact.form.js' %}" defer></script>
+<script src="{% static 'js/main.js' %}" defer></script>
+</body>
+{% include 'website/message.html' %}
+</html>

@@ -1,0 +1,149 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+
+<!--PAGE TITLE----------------------------------------------------------------->
+{% block title %} HOME {% endblock title %}
+
+<!--MAIN CONTENT--------------------------------------------------------------->
+{% block content %}
+
+<!--HOME BANNER AREA-->
+<div class="rts-banner-area-one bg_image--1 bg_image rts-section-gap mb-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="content-main-wrapper">
+                        <h1 class="title">
+                            Seeing Beyond Sight <br> AI for Eye Health  <br>
+                            <span class="txt-rotate" data-period="1000" data-rotate="[ &quot;Artificial Inteligence&quot;,&quot;AI&quot;]"><span class="wrap">Bl</span></span>
+                        </h1>
+                        <p class="disc " style="margin-top:80px">
+                            At Glucoma-Detect, we're passionate about your vision. Our AI-driven platform empowers you to take control of your eye health. Upload your eye images, and let our technology provide you with accurate and actionable results, all from the comfort of your home
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--RTS TOOLS AREA-->
+<div class="rts-tools-area  bg-tools">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-conter-area">
+                        <h2 class="title">
+                            AI-Powered Eye Analysis <br>Revolutionizing Eye Health
+                        </h2>
+                        <p class="disc">
+                            Unlock insights into your vision health effortlessly with our AI-powered eye analysis tool
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt--25 g-5">
+                <div class="col-lg-2 col-md-4 ml-5 col-sm-12 col-12">
+                    <!-- Select Pic Area -->
+                      <img src="{% static 'images/brand/01.png' %}" alt="..." class="img-thumbnail">
+                    <!-- Select Pic Area -->
+                </div>
+
+                <div class="col-lg-2 col-md-4 ml-5 col-sm-12 col-12">
+                    <!-- Select Pic Area -->
+                      <img src="{% static 'images/brand/01.png' %}" alt="..." class="img-thumbnail">
+                    <!-- Select Pic Area -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--RTS FAQ AREA-->
+<div class="rts-faq-area rts-section-gap "  style="background-color:#0e1424" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-conter-area">
+                        <h2 class="title">
+                            Questions About our GLucoma-Detect? <br>
+                            We have Answers!
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt--60">
+                <div class="col-lg-12">
+                    <div class="accordion-area-one">
+                        <div class="accordion" id="accordionExample">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        What is the purpose of this AI-powered eye analysis model?
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        Our AI-powered eye analysis model is designed to assist users in assessing and monitoring their eye health. It can help detect common eye conditions and provide valuable insights into one's vision.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                      How do I use the AI model to analyze my eye pictures?
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                       Using our AI model is simple. Just upload your eye pictures to the website, and the model will analyze them automatically. You'll receive results that can include information about the condition of your eyes and any potential issues.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Is my data and personal information secure when using this service?
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                       Yes, we take data privacy seriously. Your uploaded images and personal information are handled with the utmost care and confidentiality. We adhere to strict security measures and comply with data protection regulations to ensure your data remains secure.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                      What types of eye conditions can the AI model detect?
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                       Our AI model is trained to detect a range of common eye conditions, including but not limited to cataracts, glaucoma, diabetic retinopathy, and macular degeneration. It can provide early indications of these conditions to help you take proactive measures for your eye health.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                       Is this AI eye analysis a substitute for visiting an eye specialist or optometrist?
+                                    </button>
+                                </h2>
+                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        No, our AI-powered eye analysis is not a replacement for professional medical advice. While it can provide valuable insights, it is essential to consult with an eye specialist or healthcare professional for a comprehensive eye examination and personalized guidance regarding your eye health.
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}

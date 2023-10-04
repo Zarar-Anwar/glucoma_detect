@@ -1,0 +1,51 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+
+<!--Page Title----------------------------------->
+{% block title %}
+SIGN UP
+{% endblock %}
+
+
+<!--Main Content--------------------------------->
+{% block content %}
+
+<!--SIGNUP FORM-->
+<div class="rts-register-area rts-section-gap " style="background-color:#0e1424">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- single login area start -->
+                    <div class="single-form-s-wrapper">
+                        <div class="head">
+                            <span>Start your Journey</span>
+                            <h5 class="title">Create an account</h5>
+                        </div>
+                        <div class="body">
+                            <form action="#">
+                                <div class="input-wrapper">
+                                    <input type="text" placeholder="Full Name" required="">
+                                    <input type="email" placeholder="Enter your mail">
+                                    <input type="password" placeholder="Enter your Password">
+                                </div>
+                                <div class="check-wrapper">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            I agree to privacy policy &amp; terms
+                                        </label>
+                                    </div>
+                                </div>
+                                <button class="rts-btn btn-primary">Create Account</button>
+                                <p>If you have an account? <a class="ml--5" href="{% url 'user-login' %}">Sign in</a></p>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- single login area end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+<!--TITLE------------------------------------------------------------------>
+{% block title %}
+ABOUT
+{% endblock %}
+
+
+<!--MAIN CONTENT----------------------------------------------------------->
+{% block content %}
+
+<!--BACKGROUND BANNER-->
+<div class="rts-bread-crumb-area bg_image">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-inne">
+                        <div class="title-area">
+                            <h1 class="bread-title">About OpenUP</h1>
+                            <div class="inner-wrapper">
+                                <a href="{% url 'home' %}">Home</a>/
+                                <a href="#" class="active">About</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--TEAM-->
+<div class="rts-team-area rts-section-gapBottom pt-5" style="background-color:#0e1424">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-conter-area">
+                        <span class="pre-title-bg">Team</span>
+                        <h2 class="title">
+                             Our Honour Team
+                        </h2>
+                    </div>
+                </div>
+            </div>
+           <div class="row g-5 mt--10 align-items-center justify-content-center">
+                 <div class="col-lg-3 col-md-6 col-sm-6 col-12 ">
+                    <div class="thumbnail">
+                       <img src="{% static 'images/team/02.jpg' %}" alt="team">
+                    </div>
+                     <div class="inner-content">
+                          <a href="#">
+                            <h5 class="title">Olivia Rodrigo</h5>
+                          </a>
+                         <span>CTO / Developer</span>
+                     </div>
+                 </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12 ">
+                    <div class="thumbnail">
+                       <img src="{% static 'images/team/02.jpg' %}" alt="team">
+                    </div>
+                     <div class="inner-content">
+                          <a href="#">
+                            <h5 class="title">Olivia Rodrigo</h5>
+                          </a>
+                         <span>CTO / Developer</span>
+                     </div>
+                 </div>
+           </div>
+
+        </div>
+    </div>
+
+<!--ABOUT-->
+<div class="rts-testimonials-area rts-section-gapBottom " style="background-color:#0e1424">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-conter-area">
+                        <span class="pre-title-bg">Features</span>
+                        <h2 class="title">
+                            Trusted by 5,000+ teams <br>
+                            agencies 1500+ <span class="gradient-about-title">5-star ratings.</span>
+                        </h2>
+                        <div class="rating-area-main-p">
+
+                            <p class="disc-5">USED BY THE WORLD'S BEST MARKETING TEAMS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

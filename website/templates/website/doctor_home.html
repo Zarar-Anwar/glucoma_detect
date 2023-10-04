@@ -1,0 +1,63 @@
+{% extends 'website/base.html' %}
+
+{#Content-------------------------------------------------#}
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12 text-center mt-5 mb-5">
+      <div class="col-lg-9 mx-auto">
+        <div class="card" style="border:2px solid green">
+          <div class="card-header" style="border:1px solid green">
+            <h3>
+                <strong style='color:green'>Doctor FeedBack</strong>
+            </h3>
+          </div>
+          <div class='card-body'>
+
+            <form action="{% url 'description'%}" method='POST'>
+              {% csrf_token %}
+              <div class="row justify-content-center">
+
+                {% if responses %}
+                {% for data in responses %}
+                <div class="col-lg-4">
+                   <div class='mt-5'>
+                     <div class="card" style="border:2px solid green">
+                    <div class="card-header" >AI RESULT</div>
+                    <div class="card-body">
+                        <img src="{{ MEDIA_URL }}{{ data.image.url}}" height="200px" alt="" />
+                     <span class="text-success"> Predicted Class : {{data.predicted_class}}</span> <br>
+                     <span class="text-success"> Probability : {{data.probability}}</span>
+                    </div>
+                  </div>
+                  </div>
+
+                </div>
+                  {% endfor %}
+                {% else %}
+                <span class="alert alert-danger">No Pictures Yet Test</span>
+                {% endif %}
+
+                <div class="col-lg-12 mt-2 p-3">
+                  <form action="." method="POST">
+                    {% csrf_token %}
+                   <div class=' mb-3'>
+                    <button class='btn btn-outline-success' type='submit'>Add FeedBack</button>
+                  </div>
+                  <div class="card p-3">
+                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </form>
+
+
+        </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+{% endblock content %}
