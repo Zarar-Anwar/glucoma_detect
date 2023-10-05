@@ -15,4 +15,4 @@ class DescriptionAdmin(admin.ModelAdmin):
 
 @admin.register(AI_Response)
 class AI_ResponseAdmin(admin.ModelAdmin):
-    list_display=('id','image','predicted_class','probability')
+    list_display=('id','image','value','result')

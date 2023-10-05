@@ -49,4 +49,4 @@ class DescriptionForm(forms.ModelForm):
 class AI_ResponseForm(forms.ModelForm):
     class Meta:
         model=AI_Response
-        fields=['image','predicted_class','probability']
+        fields=['image','value','result']

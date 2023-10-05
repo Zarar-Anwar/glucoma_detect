@@ -23,8 +23,8 @@ class Feedback(models.Model):
 
 class AI_Response(models.Model):
     image = models.ImageField(upload_to='images', null=True, blank=True, help_text='AI Response Image')
-    predicted_class = models.CharField(max_length=100)
-    probability = models.CharField(max_length=100)
+    result = models.CharField(max_length=100)
+    value = models.CharField(max_length=100)
 
     def __str__(self):
         return f"AI Response ID {self.id}"

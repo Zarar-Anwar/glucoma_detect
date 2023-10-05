@@ -47,6 +47,8 @@ class Test(View):
             'value': self.kwargs['value']
         }
         return render(self.request, template_name="website/user_test.html",context=context)
+    def post(self, *args, **kwargs):
+        pass
 
 
 # User-------------------------------------------------------------------------------->
@@ -134,9 +136,7 @@ def image_detection(request):
         relative_image_url = request.POST.get("image_url")
         image_id = request.POST.get("image_id_name")
         print("Image id", image_id)
-        absolute_image_path = f'D:/Projects/glucoma_detect/glucoma_detect{relative_image_url}'
-
-        print(f"Absolute image path: {absolute_image_path}")  # Debugging line
+        absolute_image_path = f'{current_dir}{relative_image_url}'
 
         if os.path.exists(absolute_image_path):
             img = tf.io.read_file(absolute_image_path)
@@ -159,5 +159,4 @@ def image_detection(request):
         else:
             print("File does not exist")
             # Handle the case where the file does not exist
-    messages.success(request, "Image Uploaded")
-    return render(request, 'website/home.html', {'form': form, 'prediction': prediction})
+    return HttpResponseRedirect("/")
