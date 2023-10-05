@@ -69,7 +69,7 @@
                 {% for image in images%}
                 <div class="col-lg-2 col-md-4 ml-5 col-sm-12 col-12">
                     <!-- Select Pic Area -->
-                      <img src="{{image.image.url}}" alt="..." class="img-thumbnail">
+                     <img  src="{{ image.image.url }}" data-image-id="{{image.id}}"  class="mt-1 image-select" alt="Image {{ image.id }}" />
                     <!-- Select Pic Area -->
                 </div>
                 {% endfor %}
@@ -83,63 +83,56 @@
 <!--JAVASCRIPT-->
 {% block js %}
 <script>
- document.addEventListener("DOMContentLoaded", function() {
-    const images = document.querySelectorAll(".img-thumbnail");
+  document.addEventListener("DOMContentLoaded", function() {
+    const images = document.querySelectorAll(".image-select");
     let selectedImage = null;
-    let imageId = "";
+  let image_id = ""; // Initialize to an empty string
 
     images.forEach(image => {
-        image.addEventListener("click", () => {
-            imageId = image.getAttribute("data-image-id");
-            if (selectedImage) {
-                selectedImage.classList.remove("selected");
-            }
-            selectedImage = image;
-            image.classList.add("selected");
-        });
+      image.addEventListener("click", () => {
+                image_id = image.getAttribute("data-image-id")
+        if (selectedImage) {
+          selectedImage.classList.remove("selected");
+        }
+        selectedImage = image;
+        image.classList.add("selected");
+      });
     });
 
     const uploadButton = document.querySelector("#upload-button");
     uploadButton.addEventListener("click", () => {
-        if (selectedImage) {
-            const selectedImageUrl = selectedImage.getAttribute("src");
-            console.log(selectedImageUrl);
+      if (selectedImage) {
+        const selectedImageUrl = selectedImage.getAttribute("src");
+        console.log(selectedImageUrl)
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "{% url 'image-detection' %}";
+        form.enctype = "multipart/form-data"
 
-            // Create a form element
-            const form = document.createElement("form");
-            form.method = "POST";
-            form.action = "{% url 'image-detection' %}";
-            form.enctype = "multipart/form-data";
+        const csrfInput = document.createElement("input");
+        csrfInput.type = "hidden";
+        csrfInput.name = "csrfmiddlewaretoken";
+        csrfInput.value = "{{ csrf_token }}";
+        form.appendChild(csrfInput);
 
-            // Create an input field for the CSRF token
-            const csrfInput = document.createElement("input");
-            csrfInput.type = "hidden";
-            csrfInput.name = "csrfmiddlewaretoken";
-            csrfInput.value = "{{ csrf_token }}";
-            form.appendChild(csrfInput);
-
-            // Create an input field for the image URL
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "image_url";
-            input.value = selectedImageUrl;
-            form.appendChild(input);
-
-            // Create an input field for the image ID
-            const imageIdInput = document.createElement("input");
-            imageIdInput.type = "hidden";
-            imageIdInput.name = "image_id_name";
-            imageIdInput.value = imageId;
-            form.appendChild(imageIdInput);
-
-            // Append the form to the document body and submit it
-            document.body.appendChild(form);
-            form.submit();
-        } else {
-            alert("Please select an image before uploading.");
-        }
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "image_url";
+        input.value = selectedImageUrl;
+        form.appendChild(input);
+     // Create an input field for the image ID
+        const imageIdInput = document.createElement("input");
+        imageIdInput.type = "hidden";
+        imageIdInput.name = "image_id_name";
+        imageIdInput.value = image_id;
+        form.appendChild(imageIdInput);
+        document.body.appendChild(form);
+        form.submit();
+      } else {
+        alert("Please select an image before uploading.");
+      }
     });
-});
+  });
 </script>
 {% endblock js %}
 

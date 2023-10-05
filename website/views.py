@@ -12,7 +12,8 @@ import tensorflow as tf
 import os
 from tensorflow import keras
 import random
-from .decorators import user_required
+from django.views.generic import View
+
 from .forms import UserLoginForm
 
 # Website----------------------------------------------------------------------------->
@@ -36,6 +37,16 @@ def home(request):
 def website_about(request):
     template_name='website/about.html'
     return render(request,template_name)
+
+class Test(View):
+    def get(self, *args, **kwargs):
+        image = Images.objects.get(id=self.kwargs['id'])
+        context = {
+            'image': image,
+            'result': self.kwargs['result'],
+            'value': self.kwargs['value']
+        }
+        return render(self.request, template_name="website/user_test.html",context=context)
 
 
 # User-------------------------------------------------------------------------------->
@@ -111,14 +122,11 @@ def description(request):
 # AI-MODEL---------------------------------------------------------------------------->
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
-model_path =os.path.join(current_dir,"model","model1.hdf5")
-loaded_model = keras.models.load_model(model_path)
-test_dir = os.path.join(current_dir, "model", "data", "Testing")
-class_names = os.listdir(test_dir)
 
-@user_required
+model_path = os.path.join(current_dir,'model1.hdf5')
+loaded_model = keras.models.load_model(model_path)
+# @user_required
 def image_detection(request):
-    print("here")
     class_names = ["Positive", "Negative"]
     prediction = None
     form = ImagesForm(request.POST or None, request.FILES)
@@ -145,58 +153,11 @@ def image_detection(request):
             print(prediction[0])
             print(prediction[1])
             print(absolute_image_path)
-            return redirect("test", value=str(prediction[0]), result=str(prediction[1]), id=str(image_id))
+            print(image_id)
+            # Assuming image_id is a valid non-empty value
+            return redirect("test", value=str(prediction[0]), result=str(prediction[1]), id=image_id)
         else:
             print("File does not exist")
             # Handle the case where the file does not exist
     messages.success(request, "Image Uploaded")
-    return redirect('home')
     return render(request, 'website/home.html', {'form': form, 'prediction': prediction})
-
-
-# model Handling Logic
-def random_image_predictions(request):
-    image_predictions = []
-
-    for _ in range(6):
-        class_name = random.choice(class_names)
-        filenames = os.listdir(os.path.join(test_dir, class_name))
-
-        if not filenames:
-            print(f"No image files found in directory: {os.path.join(test_dir, class_name)}")
-            continue
-
-        filename = random.choice(filenames)
-        filepath = os.path.join(test_dir, class_name, filename)
-
-        if not os.path.exists(filepath):
-            print(f"File does not exist: {filepath}")
-            continue
-
-        img = tf.io.read_file(filepath)
-        img = tf.io.decode_image(img)
-        img = tf.image.resize(img, [100, 100])
-
-        pred_prob = loaded_model.predict(tf.expand_dims(img, axis=0))
-        pred_class = class_names[pred_prob.argmax()]
-
-        # Save the image file to the media directory
-        ai_response = AI_Response(
-            image=f'images/{filename}',  # Relative path within 'upload_to' subdirectory
-            predicted_class=pred_class,
-            probability=round(float(pred_prob.max()), 2)
-        )
-        ai_response.save()
-
-        # Append data to image_predictions list
-        image_predictions.append({
-            'actual_class': class_name,
-            'predicted_class': pred_class,
-            'probability': round(float(pred_prob.max()), 2),
-            'image_path': ai_response.image.url,  # Use the image URL
-        })
-
-    context = {
-        'image_predictions': image_predictions,
-    }
-    return render(request, 'website/user_test.html', context)

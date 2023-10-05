@@ -20,9 +20,9 @@ from tensorflow.keras.layers.experimental import preprocessing
 import os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
-train_dir = os.path.join(current_dir, "website", "model", "data", "Training")
-val_dir = os.path.join(current_dir, "website", "model", "data", "Validating")
-test_dir = os.path.join(current_dir, "website", "model", "data", "Testing")
+train_dir = os.path.join(current_dir, "website", "model", "data", "Training/",)
+val_dir = os.path.join(current_dir, "website", "model", "data", "Validating/",)
+test_dir = os.path.join(current_dir, "website", "model", "data", "Testing/",)
 
 IMAGE_SIZE = (100,100)
 trainDataAll = tf.keras.preprocessing.image_dataset_from_directory(train_dir,
@@ -115,10 +115,11 @@ import matplotlib.image as mpimg
 
 plt.figure(figsize = (20,12))
 for i in range(15):
-    ax = plt.subplot(6,6,i+1)
+    ax = plt.subplot(6, 6, i + 1)
     class_name = random.choice(class_names)
     filename = random.choice(os.listdir(train_dir + "/" + class_name))
     filepath = train_dir + class_name + "/" + filename
+
     img = mpimg.imread(filepath)
     plt.imshow(img)
     plt.title(class_name)

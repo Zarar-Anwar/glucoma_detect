@@ -7,7 +7,7 @@ def user_required(view_func):
         if request.user.is_authenticated and request.user.is_user:
             return view_func(request, *args, **kwargs)
         else:
-            return redirect('user-login')  # Redirect to login page or any other appropriate page
+            return redirect('user-login')
 
     return _wrapped_view
 
@@ -17,6 +17,6 @@ def doctor_required(view_func):
         if request.user.is_authenticated and request.user.is_doctor:
             return view_func(request, *args, **kwargs)
         else:
-            return redirect('user-login')  # Redirect to login page or any other appropriate page
+            return redirect('user-login')
 
     return _wrapped_view

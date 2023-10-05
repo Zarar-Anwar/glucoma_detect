@@ -1,55 +1,70 @@
 {% extends 'website/base.html' %} 
+{% load static %}
 
+
+<!--Title ------------------------------------------------------------------->
 {% block title %}
 TEST
 {% endblock title %}
 
-{#Content--------------------------------------------------------------------#}
+<!--Main Content------------------------------------------------------------->
 {% block content %}
 
-{#Image View-----------------------------------------------------------------#}
-
-{% if image_predictions %}
-
-<div class="row justify-content-center">
-  {% for data in image_predictions %}
-  <div class="col-lg-3 text-center mt-5"> <!-- Use col-lg-3 to create four columns in a row -->
-    <div class="card" style="border: 2px solid green;">
-      <div class="card-header" style="border-bottom: 2px solid green;">Glaucoma Detected Image</div>
-      <div class="card-body">
-        <img src="{{ MEDIA_URL }}{{ data.image_path }}" height="200px" alt="" />
-        <p>Predicted Class is {{ data.predicted_class }}</p>
-        <p>Probability is {{ data.probability }}</p>
-      </div>
+<!--Banner-->
+<div class="rts-bread-crumb-area bg_image">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-inne">
+                        <div class="title-area">
+                            <h1 class="bread-title">Image Testing</h1>
+                            <div class="inner-wrapper">
+                                <a href="{% url 'home' %}">Home</a>/
+                                <a href="#" class="active">Image-Testing</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+<!--    Model Result-->
+
+<div class="rts-tools-area  bg-tools pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-conter-area">
+                        <h2 class="title mt-4">
+                            Your Results
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row  g-5 justify-content-center">
+                <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12">
+                    <!-- Select Pic Area -->
+                      <img src="{{image.image.url}}" alt="..." class="img-thumbnail">
+                    <!-- Select Pic Area -->
+                </div>
+                <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12 ">
+                    <!-- Select Pic Area -->
+                    <div class="mt-5">
+                        <h6>Result : {{result}}</h6>
+                        <h6>Value  : {{value}}</h6>
+                    </div>
+                    <!-- Select Pic Area -->
+                </div>
+                <div class="row text-center" style="margin-top: 50px">
+  <div class="col-lg-2 mx-auto text-center">
+    <button id="upload-button" class="btn btn-outline-primary" type="button">
+      Forward to Doctor
+    </button>
+
   </div>
-  {% if forloop.counter|divisibleby:4 %} <!-- Add a line break after every 4 items -->
-  <div class="w-100"></div>
-  {% endif %}
-  {% endfor %}
-</div>
-{% else %}
-<div class="row justify-content-center">
-
-  <div class="col-lg-6 text-center mt-5">
-    <div class="card" style="border:2px solid green">
-      <div class="card-header" style="border-bottom:2px solid green">No Images Detected Yet</div>
-
+ </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-
-{% endif %}
-
-{#Forward Doctor Btn---------------------------------------------------------#}
-<div class="row text-center mb-5" style="margin-top: 20px">
-    <div class="col-lg-8 mx-auto text-center">
-        <form action="{% url 'home' %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-success">Forward to Doctor</button>
-        </form>
-    </div>
-</div>
-
-
 {% endblock content %}
