@@ -20,9 +20,15 @@
                             </nav>
                         </div>
                         <!-- nav end -->
+                        {% if user.is_authenticated%}
+                        <div class="button-area">
+                            <a href="{% url 'user-logout' %}" class="rts-btn btn-blur">Log out</a>
+                        </div>
+                        {% else %}
                         <div class="button-area">
                             <a href="{% url 'user-login' %}" class="rts-btn btn-blur">Sign in</a>
                         </div>
+                        {% endif %}
 
                         <div class="menu-btn d-xl-none d-lg-none d-md-block d-sm-block" id="menu-btn">
                             <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">

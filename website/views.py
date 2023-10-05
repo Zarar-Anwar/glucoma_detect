@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
 from django.db.models import Max
 from django.contrib import messages
-from .forms import DescriptionForm,UserCreation
+from .forms import DescriptionForm,UserCreation,ImagesForm
 from .models import Images, Feedback, AI_Response
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
@@ -12,6 +12,7 @@ import tensorflow as tf
 import os
 from tensorflow import keras
 import random
+from .decorators import user_required
 from .forms import UserLoginForm
 
 # Website----------------------------------------------------------------------------->
@@ -114,6 +115,44 @@ model_path =os.path.join(current_dir,"model","model1.hdf5")
 loaded_model = keras.models.load_model(model_path)
 test_dir = os.path.join(current_dir, "model", "data", "Testing")
 class_names = os.listdir(test_dir)
+
+@user_required
+def image_detection(request):
+    print("here")
+    class_names = ["Positive", "Negative"]
+    prediction = None
+    form = ImagesForm(request.POST or None, request.FILES)
+    if form.is_valid():
+        relative_image_url = request.POST.get("image_url")
+        image_id = request.POST.get("image_id_name")
+        print("Image id", image_id)
+        absolute_image_path = f'D:/Projects/glucoma_detect/glucoma_detect{relative_image_url}'
+
+        print(f"Absolute image path: {absolute_image_path}")  # Debugging line
+
+        if os.path.exists(absolute_image_path):
+            img = tf.io.read_file(absolute_image_path)
+            img = tf.io.decode_image(img)
+            img = tf.image.resize(img, [100, 100])
+            img = img / 255.0  # Normalize pixel values (assuming the model expects inputs in [0, 1])
+
+            pred_prob = loaded_model.predict(tf.expand_dims(img, axis=0))
+            pred_class_index = pred_prob.argmax()
+            predicted_class = class_names[pred_class_index]
+
+            prediction = predicted_class, pred_prob[0][pred_class_index]
+            print(prediction)
+            print(prediction[0])
+            print(prediction[1])
+            print(absolute_image_path)
+            return redirect("test", value=str(prediction[0]), result=str(prediction[1]), id=str(image_id))
+        else:
+            print("File does not exist")
+            # Handle the case where the file does not exist
+    messages.success(request, "Image Uploaded")
+    return redirect('home')
+    return render(request, 'website/home.html', {'form': form, 'prediction': prediction})
+
 
 # model Handling Logic
 def random_image_predictions(request):

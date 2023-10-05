@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('',views.home,name='home'),
     path('about/',views.website_about,name='about'),
+    path('image/detection/',views.image_detection,name='image-detection'),
 ]
 
 # User Urls
@@ -19,6 +20,5 @@ urlpatterns +=[
     path('doctor/view/',views.doctor,name='doctor'),
     path('doctor/add/description/',views.description,name='description'),
     path('test/',views.random_image_predictions,name='test-image'),
-
 ]
 
