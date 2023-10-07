@@ -55,16 +55,15 @@ TEST
                         <h6>Value  : {{value}}</h6>
                     </div>
                     <!-- Select Pic Area -->
-                </div>
-                <div class="row text-center" style="margin-top: 50px">
-  <div class="col-lg-2 mx-auto text-center">
-    <button id="upload-button" class="btn btn-outline-primary" type="button">
-      Forward to Doctor
-    </button>
-
-  </div>
- </div>
             </div>
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        <div class="row text-center" style="margin-bottom: 50px">
+                            <div class="col-lg-2 mx-auto text-center">
+                                <button id="upload-button" class="btn btn-outline-primary" type="submit">Forward to Doctor</button>
+                            </div>
+                        </div>
+                    </form>
         </div>
     </div>
 {% endblock content %}

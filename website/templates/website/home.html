@@ -159,9 +159,13 @@
                     <div class="mt-5">
                         <h6>Result : {{report.result}}</h6>
                         <h6>Value  : {{report.value}}</h6>
+                            {% if report.description is not None %}
                         <p>Description:
                             {{report.description}}
                         </p>
+                            {% else %}
+                            <p class="text-danger">No Response from Doctor</p>
+                            {% endif %}
                     </div>
                 </div>
                 {% endfor %}

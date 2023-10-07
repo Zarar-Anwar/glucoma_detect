@@ -1,18 +1,13 @@
 
-from django.shortcuts import render, redirect,HttpResponseRedirect
-from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
+from django.shortcuts import render, redirect,HttpResponseRedirect,get_object_or_404
+from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserCreation
 from django.contrib.auth import authenticate,login,logout
-from django.db.models import Max
 from django.contrib import messages
 from .forms import DescriptionForm,ImagesForm
-from .models import Images, Feedback, AI_Response
-from django.contrib.auth import logout
-from django.contrib.auth.views import LoginView
-import tensorflow as tf
+from .models import Images,AI_Response
 import os
 from tensorflow import keras
-import random
 from django.views.generic import View
 from .decorators import user_required,doctor_required
 
@@ -20,9 +15,9 @@ from .decorators import user_required,doctor_required
 
 # Website----------------------------------------------------------------------------->
 
-# Home
 def home(request):
     images = Images.objects.all()
+    records=None
 
     if request.user.is_authenticated:
         records = AI_Response.objects.filter(userId=request.user.id)
@@ -31,38 +26,35 @@ def home(request):
     template_name="website/home.html"
     return render(request, template_name, context)
 
-# About
 def website_about(request):
     template_name='website/about.html'
     return render(request,template_name)
 
+# @user_required
 class Test(View):
     def get(self, *args, **kwargs):
-        image = Images.objects.get(id=self.kwargs['id'])
-        print("User id:", self.request.user.id)
+        image = get_object_or_404(Images, id=self.kwargs['id'])
 
-        ai_response = AI_Response(
-            image=image.image,
-            result=self.kwargs['result'],
-            value=self.kwargs['value'],
-            userId=self.request.user
-        )
-        ai_response.save()
+        if self.request.method=="POST":
+            ai_response = AI_Response(
+                image=image.image,
+                result=self.kwargs['result'],
+                value=self.kwargs['value'],
+                userId=self.request.user
+            )
+            ai_response.save()
+            messages.success(self.request,"Report send to Doctor")
+            return HttpResponseRedirect('/')
 
         context = {
             'image': image,
             'result': self.kwargs['result'],
             'value': self.kwargs['value']
         }
-
         return render(self.request, template_name="website/user_test.html", context=context)
-    def post(self, *args, **kwargs):
-        pass
-
 
 # User-------------------------------------------------------------------------------->
 
-# Login
 def user_login(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect("/")
@@ -89,7 +81,6 @@ def user_login(request):
         context = {"form": form}
         return render(request, template_name, context)
 
-# SignUp
 def user_signup(request):
     fm = UserCreation(request.POST or None)
     if fm.is_valid():
@@ -102,7 +93,6 @@ def user_signup(request):
     context = {"form": fm}
     return render(request, template_name, context)
 
-# Logout
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/user/login/')
@@ -111,7 +101,15 @@ def user_logout(request):
 # View
 @doctor_required
 def doctor(request):
-    latest_responses = AI_Response.objects.all().order_by('-id')
+    if request.method == "POST":
+        form = DescriptionForm(request.POST)
+        if form.is_valid():
+            description = form.cleaned_data['description']
+            ai_response = AI_Response.objects.get(id=request.POST['ai_response_id'])
+            ai_response.description = description
+            ai_response.save()
+            return redirect('doctor')
+    latest_responses = AI_Response.objects.filter(description=None).order_by('-id')
     template_name = 'website/doctor_home.html'
     context = {"responses": latest_responses}
     print(context)
