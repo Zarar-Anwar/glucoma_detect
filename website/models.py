@@ -1,9 +1,21 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.conf import settings
 
-User = settings.AUTH_USER_MODEL
-# Create your models here.
 
+class User(AbstractUser):
+    is_user = models.BooleanField(default=False)
+    is_doctor = models.BooleanField(default=False)
+    email = models.EmailField(max_length=200,unique=True)
+    REQUIRED_FIELDS = ['username',]
+    USERNAME_FIELD = 'email'
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
+    def __str__(self):
+        return self.username
 
 
 class Images(models.Model):
@@ -25,7 +37,7 @@ class AI_Response(models.Model):
     image = models.ImageField(upload_to='images', null=True, blank=True, help_text='AI Response Image')
     result = models.CharField(max_length=100)
     value = models.CharField(max_length=100)
-    userId= models.ForeignKey(User, on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"AI Response ID {self.id}"

@@ -1,10 +1,11 @@
 
 from django.shortcuts import render, redirect,HttpResponseRedirect
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
+from .forms import UserCreation
 from django.contrib.auth import authenticate,login,logout
 from django.db.models import Max
 from django.contrib import messages
-from .forms import DescriptionForm,UserCreation,ImagesForm
+from .forms import DescriptionForm,ImagesForm
 from .models import Images, Feedback, AI_Response
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
@@ -13,8 +14,9 @@ import os
 from tensorflow import keras
 import random
 from django.views.generic import View
+from .decorators import user_required
 
-from .forms import UserLoginForm
+
 
 # Website----------------------------------------------------------------------------->
 
@@ -22,6 +24,7 @@ from .forms import UserLoginForm
 def home(request):
     images = Images.objects.all()
     latest_description_id = Feedback.objects.aggregate(Max('id'))['id__max']
+    # latest_description_id =[]
     description=None
     if latest_description_id:
         description = Feedback.objects.get(id=latest_description_id)
@@ -41,12 +44,23 @@ def website_about(request):
 class Test(View):
     def get(self, *args, **kwargs):
         image = Images.objects.get(id=self.kwargs['id'])
+        print("User id:", self.request.user.id)
+
+        ai_response = AI_Response(
+            image=image.image,
+            result=self.kwargs['result'],
+            value=self.kwargs['value'],
+            userId=self.request.user
+        )
+        ai_response.save()
+
         context = {
             'image': image,
             'result': self.kwargs['result'],
             'value': self.kwargs['value']
         }
-        return render(self.request, template_name="website/user_test.html",context=context)
+
+        return render(self.request, template_name="website/user_test.html", context=context)
     def post(self, *args, **kwargs):
         pass
 
@@ -66,7 +80,10 @@ def user_login(request):
                 user = authenticate(username=uname, password=upass)
                 if user is not None:
                     login(request, user)
+                    messages.success(request,"Login SuccessFully")
                     return HttpResponseRedirect("/")
+            else:
+                 messages.error(request, "Invalid Username and Password")
         else:
             form = AuthenticationForm()
 
@@ -163,6 +180,7 @@ loaded_model = keras.models.load_model(model_path)
 from keras.preprocessing import image
 from keras.applications.resnet import preprocess_input
 import numpy as np
+
 
 def image_detection(request):
     class_names = ["Negative", "Positive"]

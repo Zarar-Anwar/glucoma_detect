@@ -1,13 +1,14 @@
 from django import forms
 from .models import Images,Feedback,AI_Response
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
-class CustomUser(AbstractUser):
-    is_user = models.BooleanField(default=False)
-    is_doctor = models.BooleanField(default=False)
+# With this:
+from website.models import User
+
+
+
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(
@@ -20,7 +21,6 @@ class UserLoginForm(forms.Form):
 
 class UserCreation(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Enter your email'}))
-
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
