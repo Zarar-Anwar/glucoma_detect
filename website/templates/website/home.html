@@ -136,6 +136,45 @@
 </script>
 {% endblock js %}
 
+<!--USER TEST RECORDS-->
+<div class="rts-tools-area  bg-tools">
+{% if user.is_authenticated %}
+    {% if images %}
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mt-5">
+                    <div class="title-conter-area">
+                        <h2 class="title mt-4 text-success">
+                            Your Test Records
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt--25 g-5">
+                {% for image in images%}
+                <div class="col-lg-2 col-md-4 ml-5 col-sm-12 col-12">
+                    <!-- Select Pic Area -->
+                     <img  src="{{ image.image.url }}" data-image-id="{{image.id}}"  class="mt-1 image-select" alt="Image {{ image.id }}" />
+                    <!-- Select Pic Area -->
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                 <div class="row">
+                <div class="col-lg-12 mt-5">
+                    <div class="title-conter-area">
+                        <h2 class="title mt-5 text-danger">
+                            You Dont have Test Records
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+{% endif %}
+    </div>
+
+
 <!--RTS FAQ AREA-->
 <div class="rts-faq-area rts-section-gap "  style="background-color:#0e1424" >
         <div class="container">

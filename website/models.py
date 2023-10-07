@@ -25,6 +25,7 @@ class AI_Response(models.Model):
     image = models.ImageField(upload_to='images', null=True, blank=True, help_text='AI Response Image')
     result = models.CharField(max_length=100)
     value = models.CharField(max_length=100)
+    userId= models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"AI Response ID {self.id}"
