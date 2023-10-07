@@ -14,7 +14,7 @@ import os
 from tensorflow import keras
 import random
 from django.views.generic import View
-from .decorators import user_required
+from .decorators import user_required,doctor_required
 
 
 
@@ -23,18 +23,13 @@ from .decorators import user_required
 # Home
 def home(request):
     images = Images.objects.all()
-    latest_description_id = Feedback.objects.aggregate(Max('id'))['id__max']
-    # latest_description_id =[]
-    description=None
-    if latest_description_id:
-        description = Feedback.objects.get(id=latest_description_id)
-    else:
-        description = None
-    if request.method=="POST":
-        messages.success(request,"Result Send to Doctor")
-        return render(request, 'website/home.html', {"images": images, "description": description})
 
-    return render(request, 'website/home.html', {"images": images, "description": description})
+    if request.user.is_authenticated:
+        records = AI_Response.objects.filter(userId=request.user.id)
+
+    context={"images":images,"records":records}
+    template_name="website/home.html"
+    return render(request, template_name, context)
 
 # About
 def website_about(request):
@@ -81,7 +76,10 @@ def user_login(request):
                 if user is not None:
                     login(request, user)
                     messages.success(request,"Login SuccessFully")
-                    return HttpResponseRedirect("/")
+                    if (user.is_user):
+                        return HttpResponseRedirect("/")
+                    else:
+                        return HttpResponseRedirect("/doctor/view/")
             else:
                  messages.error(request, "Invalid Username and Password")
         else:
@@ -111,25 +109,26 @@ def user_logout(request):
 
 
 # View
+@doctor_required
 def doctor(request):
-    if request.method=="POST":
-        messages.success(request,"Results Send to Doctor")
-        template_name='website/home.html'
-        return render(request,template_name)
-    latest_responses = AI_Response.objects.all().order_by('-id')[:6]
+    latest_responses = AI_Response.objects.all().order_by('-id')
     template_name = 'website/doctor_home.html'
     context = {"responses": latest_responses}
+    print(context)
     return render(request, template_name, context)
 
+
 # Description
+@doctor_required
 def description(request):
     if request.method == "POST":
         form = DescriptionForm(request.POST)
         if form.is_valid():
-            obj=form.save(commit=False)
-            obj.user=request.user
-            obj.save()
-            messages.success(request, "Description Send")
+            ai_response = AI_Response(
+                description=form.cleaned_data['description']
+            )
+            ai_response.save()
+            messages.success(request, "Description Sent")
             return redirect('doctor')
         else:
             messages.error(request, "Invalid Data")
@@ -181,7 +180,7 @@ from keras.preprocessing import image
 from keras.applications.resnet import preprocess_input
 import numpy as np
 
-
+@user_required
 def image_detection(request):
     class_names = ["Negative", "Positive"]
     prediction = None

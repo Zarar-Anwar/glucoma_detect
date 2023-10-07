@@ -42,11 +42,11 @@ class ImagesForm(forms.ModelForm):
 
 class DescriptionForm(forms.ModelForm):
     class Meta:
-        model=Feedback
+        model=AI_Response
         fields=['description']
 
 
 class AI_ResponseForm(forms.ModelForm):
     class Meta:
         model=AI_Response
-        fields=['image','value','result']
+        fields=['image','value','result','description']

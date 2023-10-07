@@ -20,4 +20,4 @@ class DescriptionAdmin(admin.ModelAdmin):
 
 @admin.register(AI_Response)
 class AI_ResponseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'image', 'value', 'result', 'userId')
+    list_display = ('id', 'image', 'value', 'result', 'userId','description')

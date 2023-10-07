@@ -29,7 +29,16 @@
                             <div class="body">
                                 <ul class="menu">
                                     <li><a href="{% url 'about' %}">About Us</a></li>
+                                    {% if user.is_authenticated %}
+                                    {% if user.is_user %}
+                                      <li><a href="{% url 'home' %}">Login</a></li>
+                                    {% elif user.is_doctor %}
+                                      <li><a href="{% url 'doctor' %}">Login</a></li>
+                                    {% endif %}
+                                  {% else %}
                                     <li><a href="{% url 'user-login' %}">Login</a></li>
+                                  {% endif %}
+
                                 </ul>
                             </div>
                         </div>

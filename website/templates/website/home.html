@@ -139,7 +139,7 @@
 <!--USER TEST RECORDS-->
 <div class="rts-tools-area  bg-tools">
 {% if user.is_authenticated %}
-    {% if images %}
+    {% if records %}
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 mt-5">
@@ -151,11 +151,18 @@
                 </div>
             </div>
             <div class="row mt--25 g-5">
-                {% for image in images%}
-                <div class="col-lg-2 col-md-4 ml-5 col-sm-12 col-12">
-                    <!-- Select Pic Area -->
-                     <img  src="{{ image.image.url }}" data-image-id="{{image.id}}"  class="mt-1 image-select" alt="Image {{ image.id }}" />
-                    <!-- Select Pic Area -->
+                {% for report in records%}
+                  <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12">
+                      <img src="{{report.image.url}}" alt="..." class="img-thumbnail">
+                </div>
+                <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12  " style="margin-bottom:40px;">
+                    <div class="mt-5">
+                        <h6>Result : {{report.result}}</h6>
+                        <h6>Value  : {{report.value}}</h6>
+                        <p>Description:
+                            {{report.description}}
+                        </p>
+                    </div>
                 </div>
                 {% endfor %}
             </div>

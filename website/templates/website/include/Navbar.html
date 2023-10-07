@@ -12,9 +12,15 @@
                         <div class="nav-area-main d-xl-block d-lg-block d-md-none d-sm-none d-none">
                             <nav>
                                 <ul>
+                                    {% if user.is_authenticated and user.is_doctor %}
+                                      <li >
+                                        <a class="links-main" href="{% url 'doctor' %}">Doctor</a>
+                                    </li>
+                                    {% else %}
                                     <li >
                                         <a class="links-main" href="{% url 'home' %}">Home</a>
                                     </li>
+                                    {% endif %}
                                     <li><a class="links-main" href="{% url 'about' %}">About</a></li>
                                 </ul>
                             </nav>

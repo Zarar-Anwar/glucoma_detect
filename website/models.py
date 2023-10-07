@@ -37,6 +37,7 @@ class AI_Response(models.Model):
     image = models.ImageField(upload_to='images', null=True, blank=True, help_text='AI Response Image')
     result = models.CharField(max_length=100)
     value = models.CharField(max_length=100)
+    description=models.CharField(max_length=200,default=None,null=True)
     userId = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
