@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Images, Feedback, AI_Response
+from .models import Images, AI_Response
 from django.contrib import admin
 from .models import User
 
@@ -11,11 +11,6 @@ admin.site.register(User)
 @admin.register(Images)
 class ImagesAdmin(admin.ModelAdmin):
     list_display = ('id',)
-
-
-@admin.register(Feedback)
-class DescriptionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description')
 
 
 @admin.register(AI_Response)

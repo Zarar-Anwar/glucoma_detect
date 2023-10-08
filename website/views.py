@@ -10,7 +10,9 @@ import os
 from tensorflow import keras
 from django.views.generic import View
 from .decorators import user_required,doctor_required
-
+from keras.preprocessing import image
+from keras.applications.resnet import preprocess_input
+import numpy as np
 
 
 # Website----------------------------------------------------------------------------->
@@ -30,12 +32,19 @@ def website_about(request):
     template_name='website/about.html'
     return render(request,template_name)
 
-# @user_required
 class Test(View):
     def get(self, *args, **kwargs):
         image = get_object_or_404(Images, id=self.kwargs['id'])
+        context = {
+            'image': image,
+            'result': self.kwargs['result'],
+            'value': self.kwargs['value']
+        }
+        return render(self.request, template_name="website/user_test.html", context=context)
 
-        if self.request.method=="POST":
+    def post(self,*arg,**kwargs):
+        if self.request.method == "POST":
+            image = get_object_or_404(Images, id=self.kwargs['id'])
             ai_response = AI_Response(
                 image=image.image,
                 result=self.kwargs['result'],
@@ -43,15 +52,10 @@ class Test(View):
                 userId=self.request.user
             )
             ai_response.save()
-            messages.success(self.request,"Report send to Doctor")
+            messages.success(self.request, "Report send to Doctor")
             return HttpResponseRedirect('/')
 
-        context = {
-            'image': image,
-            'result': self.kwargs['result'],
-            'value': self.kwargs['value']
-        }
-        return render(self.request, template_name="website/user_test.html", context=context)
+
 
 # User-------------------------------------------------------------------------------->
 
@@ -174,9 +178,6 @@ loaded_model = keras.models.load_model(model_path)
 #             print("File does not exist")
 #             # Handle the case where the file does not exist
 #     return HttpResponseRedirect("/")
-from keras.preprocessing import image
-from keras.applications.resnet import preprocess_input
-import numpy as np
 
 @user_required
 def image_detection(request):

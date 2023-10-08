@@ -1,5 +1,5 @@
 from django import forms
-from .models import Images,Feedback,AI_Response
+from .models import Images,AI_Response
 from django.contrib.auth.forms import UserCreationForm
 from django.db import models
 from django.contrib.auth.models import User
