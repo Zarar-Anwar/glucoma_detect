@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .forms import DescriptionForm,ImagesForm
 from .models import Images,AI_Response
+import tensorflow as tf
 import os
 from tensorflow import keras
 from django.views.generic import View
@@ -143,48 +144,13 @@ def description(request):
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
-model_path = os.path.join(current_dir,'model.h5')
+model_path = os.path.join(current_dir,'model1.hdf5')
 loaded_model = keras.models.load_model(model_path)
-# @user_required
-# def image_detection(request):
-#     class_names = ["Positive", "Negative"]
-#     prediction = None
-#     form = ImagesForm(request.POST or None, request.FILES)
-#     if form.is_valid():
-#         relative_image_url = request.POST.get("image_url")
-#         image_id = request.POST.get("image_id_name")
-#         print("Image id", image_id)
-#         absolute_image_path = f'{current_dir}{relative_image_url}'
-#
-#         if os.path.exists(absolute_image_path):
-#             img = tf.io.read_file(absolute_image_path)
-#             img = tf.io.decode_image(img)
-#             img = tf.image.resize(img, [100, 100])
-#             img = img / 255.0  # Normalize pixel values (assuming the model expects inputs in [0, 1])
-#
-#             pred_prob = loaded_model.predict(tf.expand_dims(img, axis=0))
-#             pred_class_index = pred_prob.argmax()
-#             predicted_class = class_names[pred_class_index]
-#
-#             prediction = predicted_class, pred_prob[0][pred_class_index]
-#             print(prediction)
-#             print(prediction[0])
-#             print(prediction[1])
-#             print(absolute_image_path)
-#             print(image_id)
-#             # Assuming image_id is a valid non-empty value
-#             return redirect("test", value=str(prediction[0]), result=str(prediction[1]), id=image_id)
-#         else:
-#             print("File does not exist")
-#             # Handle the case where the file does not exist
-#     return HttpResponseRedirect("/")
-
 @user_required
 def image_detection(request):
-    class_names = ["Negative", "Positive"]
+    class_names = ["Positive", "Negative"]
     prediction = None
     form = ImagesForm(request.POST or None, request.FILES)
-
     if form.is_valid():
         relative_image_url = request.POST.get("image_url")
         image_id = request.POST.get("image_id_name")
@@ -192,13 +158,13 @@ def image_detection(request):
         absolute_image_path = f'{current_dir}{relative_image_url}'
 
         if os.path.exists(absolute_image_path):
-            img = image.load_img(absolute_image_path, target_size=(224, 224))
-            img = image.img_to_array(img)
-            img = preprocess_input(img)
-            img = np.expand_dims(img, axis=0)  # Add batch dimension
+            img = tf.io.read_file(absolute_image_path)
+            img = tf.io.decode_image(img)
+            img = tf.image.resize(img, [100, 100])
+            img = img / 255.0  # Normalize pixel values (assuming the model expects inputs in [0, 1])
 
-            pred_prob = loaded_model.predict(img)
-            pred_class_index = np.argmax(pred_prob)
+            pred_prob = loaded_model.predict(tf.expand_dims(img, axis=0))
+            pred_class_index = pred_prob.argmax()
             predicted_class = class_names[pred_class_index]
 
             prediction = predicted_class, pred_prob[0][pred_class_index]

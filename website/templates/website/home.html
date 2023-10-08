@@ -154,9 +154,7 @@
                 {% for report in records%}
                   <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12">
                       <img src="{{report.image.url}}" alt="..." class="img-thumbnail">
-                </div>
-                <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12  " style="margin-bottom:40px;">
-                    <div class="mt-5">
+                       <div class="mt-5">
                         <h6>Result : {{report.result}}</h6>
                         <h6>Value  : {{report.value}}</h6>
                             {% if report.description is not None %}
