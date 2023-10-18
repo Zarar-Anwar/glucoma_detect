@@ -102,6 +102,9 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/user/login/')
 
+@user_required
+def records_delete(request):
+
 
 # View
 @doctor_required
@@ -152,8 +155,8 @@ def image_detection(request):
     prediction = None
     form = ImagesForm(request.POST or None, request.FILES)
     if form.is_valid():
-        relative_image_url = request.POST.get("image_url")
-        image_id = request.POST.get("image_id_name")
+        relative_image_url = request.POST.get("image")
+        image_id = request.POST.get("image")
         print("Image id", image_id)
         absolute_image_path = f'{current_dir}{relative_image_url}'
 
