@@ -61,7 +61,7 @@
         </div>
 
         <div class="row mt--25 g-5">
-            <form action="{% url 'image-detection' %}" method="POST">
+            <form action="{% url 'image-detection' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="col-lg-3 col-md-3 mx-auto mt-4 col-sm-8 col-8 text-center">
                     <input name="image" id="image" type="file" accept="image/*">
@@ -92,9 +92,9 @@
             <div class="col-lg-2 mx-auto">
                 <form action="{% url 'records-delete' %}" method="POST">
                     {% csrf_token %}
-                <button id="clear-button" class="btn btn-outline-danger" type="submit">
-                    Clear Records
-                </button>
+                    <button id="clear-button" class="btn btn-outline-danger" type="submit">
+                        Clear Records
+                    </button>
 
                 </form>
             </div>
