@@ -5,65 +5,72 @@
 {#Content-------------------------------------------------#}
 {% block content %}
 
-<div class="rts-banner-area-one bg_image--1 bg_image rts-section-gap ">
-        <div class="container " >
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="content-main-wrapper">
-                        <h1 class="title">
-                            Welcome<br>
-                            <span class="txt-rotate" data-period="1000" data-rotate="[ &quot;Doctor&quot;,&quot;DOCTOR&quot;]"><span class="wrap">Glucoma Detection</span></span>
-                        </h1>
-                        <div class="border-top border-grey"></div>
-                        {% if responses %}
-                        <div class="container ">
-                             <div class="row mt-5">
-                <div class="col-lg-12">
-                    <div class="title-conter-area mt-5">
-                        <h2 class="title mt-5">
-                            Reports
-                        </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row  g-5 justify-content-center">
-                {% for report in responses %}
-                 <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12">
-                      <img src="{{report.image.url}}" alt="..." class="img-thumbnail">
-                     <form action="." method="POST">
-                            {% csrf_token %}
-                         <input type="hidden" name="ai_response_id" value="{{ report.id }}">
-                            <label style="font-Size:10px">Add Description</label>
-                            <input type="text" name="description" class="border" required>
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </form>
-                </div>
-                <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12  " style="margin-bottom:40px;">
-                    <div class="mt-5">
-                        <h6 style="font-Size:10px">Result : {{report.result}}</h6>
-                        <h6  style="font-Size:10px">Value  : {{report.value}}</h6>
-                    </div>
-                </div>
-                {% endfor %}
-                {% else %}
-                 <div class="row">
-                <div class="col-lg-12 mt-5">
-                    <div class="title-conter-area">
-                        <h2 class="title mt-5 text-danger">
-                            No Reports
-                        </h2>
-                    </div>
-                </div>
-            </div>
-                {% endif %}
+<div class="rts-banner-area-one bg_image--1 bg_image rts-section-gap">
+    <div class="container ">
+        <div class="row">
 
-            </div>
-        </div>
+            <div class="col-lg-12">
+                <div class="content-main-wrapper">
+                    <h1 class="title">
+                        Welcome<br>
+                        <span class="txt-rotate" data-period="1000"
+                              data-rotate="[ &quot;Doctor&quot;,&quot;{{user.username}}&quot;]"><span class="wrap">Glucoma Detection</span></span>
+                    </h1>
+                    <div class="border-top border-grey"></div>
+                    <div class="container ">
+
+                        {% if responses %}
+                        <div class="row mt-5">
+                            <div class="col-lg-12">
+                                <div class="title-conter-area mt-5">
+                                    <h2 class="title mt-5">
+                                        Reports
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row  g-5 justify-content-center">
+                            {% for report in responses %}
+                            <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12">
+                                <img src="{{report.image.url}}" alt="..." class="img-thumbnail">
+                                <form action="." method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="ai_response_id" value="{{ report.id }}">
+                                    <label style="font-Size:10px">Add Description</label>
+                                    <input type="text" name="description" class="border" required>
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                </form>
+                            </div>
+                            <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12  " style="margin-bottom:40px;">
+                                <div class="mt-5">
+                                    <h6 style="font-Size:10px">Result : {{report.result}}</h6>
+                                    <h6 style="font-Size:10px">Value : {{report.value}}</h6>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        {% else %}
+
+                        <div class="row">
+                            <div class="col-lg-12 mt-5">
+                                <div class="title-conter-area">
+                                    <h2 class="title mt-5 text-danger">
+                                        No Reports
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 {% endblock content %}

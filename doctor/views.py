@@ -5,12 +5,25 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from website.forms import UserUpdateForm
+from website.forms import UserUpdateForm, DescriptionForm
+from website.models import AI_Response
 
 
 # @method_decorator(login_required, name='dispatch')
-class DashboardView(TemplateView):
+def DashboardView(request):
+    if request.method == "POST":
+        form = DescriptionForm(request.POST)
+        if form.is_valid():
+            description = form.cleaned_data['description']
+            ai_response = AI_Response.objects.get(id=request.POST['ai_response_id'])
+            ai_response.description = description
+            ai_response.save()
+            return redirect('doctor')
+    latest_responses = AI_Response.objects.filter(description=None).order_by('-id')
     template_name = 'doctor/dashboard.html'
+    context = {"responses": latest_responses}
+    print(context)
+    return render(request, template_name, context)
 
 
 # @method_decorator(login_required, name='dispatch')

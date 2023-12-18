@@ -1,6 +1,7 @@
 from functools import wraps
 from django.shortcuts import redirect
 
+
 def user_required(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
@@ -10,6 +11,7 @@ def user_required(view_func):
             return redirect('user-login')
 
     return _wrapped_view
+
 
 def doctor_required(view_func):
     @wraps(view_func)

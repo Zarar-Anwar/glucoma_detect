@@ -12,12 +12,11 @@
                     {% if user.profile_image %}
                     <img src="{{user.profile_image.url}}" alt="user">
                     {% else %}
-                    <img src="{% static 'website/images/user_default.png' %}" alt="user">
+                    <img src="{% static 'dashboard/images/user_default.png' %}" alt="user">
                     {% endif %}
                 </div>
                 <div class="author-bio">
-                    <h4 class="author__title">{{user.username|capfirst}} Travel Agency</h4>
-                    <span class="author__meta">Welcome to Admin Panel</span>
+                    <h4 class="author__title">{{user.username|capfirst}}</h4>
                 </div>
             </div>
         </div>

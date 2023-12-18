@@ -140,9 +140,8 @@ def doctor(request):
             ai_response.save()
             return redirect('doctor')
     latest_responses = AI_Response.objects.filter(description=None).order_by('-id')
-    template_name = 'website/doctor_home.html'
+    template_name = 'doctor/dashboard.html'
     context = {"responses": latest_responses}
-    print(context)
     return render(request, template_name, context)
 
 

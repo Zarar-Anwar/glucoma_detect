@@ -25,6 +25,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="content-main-wrapper">
+                    {% if user.is_authenticated %}
+                    <h1 class="title">
+                        <br> Welcome <br>
+                        <span class="txt-rotate" data-period="1000"
+                              data-rotate="[ &quot;{{user.first_name}}&quot;,&quot;{{user.first_name}}&quot;]"><span
+                                class="wrap"></span></span>
+                    </h1>
+                    {% endif %}
                     <h1 class="title">
                         Seeing Beyond Sight <br> AI for Eye Health <br>
                         <span class="txt-rotate" data-period="1000"
@@ -32,7 +40,8 @@
                                 class="wrap">Glucoma-Detection</span></span>
                     </h1>
                     <p class="disc " style="margin-top:80px">
-                        For Glucoma-Detection, we're passionate about your vision. Our AI-driven platform empowers you to
+                        For Glucoma-Detection, we're passionate about your vision. Our AI-driven platform empowers you
+                        to
                         take control of your eye health. Upload your eye images, and let our technology provide you with
                         accurate and actionable results, all from the comfort of your home
                     </p>
