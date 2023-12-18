@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {# SEO AREA ------------------------------------------------------------------------------------------------- #}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FLD">
+    <meta name="keywords" content="FLD">
+    <meta name="author" content="FLD">
+    {# ICON #}
+    <link rel="icon" href="{% static 'website/images/favicon.png'%}"/>
+
+    {# CSS LINKS #}
+    <link rel="stylesheet" href="{% static 'dashboard/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/bootstrap-select.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/line-awesome.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/owl.carousel.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/owl.theme.default.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/jquery.fancybox.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/daterangepicker.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/animated-headline.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/jquery-ui.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/flag-icon.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/jquery.autocomplete.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}"/>
+
+    {# Google Fonts#}
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&amp;display=swap"
+            rel="stylesheet"
+    />
+
+    {# TITLE AREA ------------------------------------------------------------------------------------------------- #}
+    <title>
+        {% block title %}
+        Home
+        {% endblock title%}
+    </title>
+
+    {% block css %}
+
+    {% endblock %}
+
+    {% block links %}
+
+    {% endblock %}
+
+</head>
+
+<body>
+
+{# USER SETTING-------------------------------------------------------------------------------------------------------#}
+{% include 'doctor/include/user_settings.html' %}
+
+{# SIDEBAR -----------------------------------------------------------------------------------------------------------#}
+{% include 'doctor/include/sidebar.html' %}
+
+
+{# CONTENT AREA ------------------------------------------------------------------------------------------------------#}
+<section class="dashboard-area">
+    {% include 'doctor/include/dashboard_nav.html' %}
+    {% block content %}
+
+    {% endblock %}
+</section>
+
+<!-- start back-to-top -->
+<div id="back-to-top">
+    <i class="la la-angle-up" title="Go top"></i>
+</div>
+
+
+{# SCRIPTS AREA ------------------------------------------------------------------------------------------------------#}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src=" {% static 'dashboard/js/jquery-3.4.1.min.js' %}"></script>
+<script src=" {% static 'dashboard/js/jquery-ui.js' %}"></script>
+<script src=" {% static 'dashboard/js/popper.min.js' %}"></script>
+<script src=" {% static 'dashboard/js/bootstrap.min.js' %}"></script>
+<script src=" {% static 'dashboard/js/bootstrap-select.min.js' %}"></script>
+<script src=" {% static 'dashboard/js/moment.min.js' %}"></script>
+<script src=" {% static 'dashboard/js/daterangepicker.js' %}"></script>
+<script src=" {% static 'dashboard/js/owl.carousel.min.js' %}"></script>
+<script src=" {% static 'dashboard/js/jquery.fancybox.min.js' %}"></script>
+<script src=" {% static 'dashboard/js/jquery.countTo.min.js' %}"></script>
+<script src=" {% static 'dashboard/js/animated-headline.js' %}"></script>
+<script src=" {% static 'dashboard/js/jquery.ripples-min.js' %}"></script>
+<script src=" {% static 'dashboard/js/quantity-input.js' %}"></script>
+<script src=" {% static 'dashboard/js/jquery.autocomplete.js' %}"></script>
+<script src=" {% static 'dashboard/js/autocomplete-script.js' %}"></script>
+<script src=" {% static 'dashboard/js/main.js' %}"></script>
+
+
+
+
+
+</body>
+</html>
+
+{% block external_js %}
+
+{% endblock external_js %}

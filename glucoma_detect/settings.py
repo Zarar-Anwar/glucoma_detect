@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-LOGIN_REDIRECT_URL = 'doctor'
+LOGIN_REDIRECT_URL = 'user/login/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'website.User'
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "website",
+    "doctor",
 ]
 
 MIDDLEWARE = [
@@ -102,8 +102,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
 
 
 # Internationalization

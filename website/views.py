@@ -15,6 +15,18 @@ from keras.preprocessing import image
 from keras.applications.resnet import preprocess_input
 import numpy as np
 
+#____________________
+import os
+import tensorflow as tf
+from django.shortcuts import redirect
+from django.conf import settings
+from .models import Images
+from .forms import ImagesForm
+from xgboost import XGBClassifier
+import numpy as np
+from tensorflow.keras.applications import DenseNet201
+#____________________
+
 
 # Website----------------------------------------------------------------------------->
 
@@ -157,14 +169,16 @@ def description(request):
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
-model_path = os.path.join(current_dir, 'model1.hdf5')
-loaded_model = keras.models.load_model(model_path)
+model_path = os.path.join(current_dir, "xgboost_model_150x150.model")
+# Load your saved XGBoost model
+xgb_model = XGBClassifier()
+xgb_model.load_model(model_path)
 
+# Create a pre-trained DenseNet201 model to extract features
+base_model = DenseNet201(weights='imagenet', include_top=False, input_shape=(150, 150, 3))
 
 @user_required
 def image_detection(request):
-    class_names = ["Positive", "Negative"]
-    prediction = None
     form = ImagesForm(request.POST or None, request.FILES)
     if form.is_valid():
         image1 = form.cleaned_data['image']
@@ -180,17 +194,31 @@ def image_detection(request):
 
         if os.path.exists(absolute_image_path):
             img = tf.io.read_file(absolute_image_path)
-            img = tf.image.decode_image(img)  # Ensure the image is loaded with the correct number of channels (3).
-            img = tf.image.resize(img, [100, 100])
+            img = tf.image.decode_image(img)
+            img = tf.image.resize(img, [150, 150])  # Resize to match the input size of the model
+            img = np.array(img)
             img = img / 255.0
+            img = np.expand_dims(img, axis=0)
+            features = base_model.predict(img)
 
-            pred_prob = loaded_model.predict(tf.expand_dims(img, axis=0))
-            pred_class_index = pred_prob.argmax()
-            predicted_class = class_names[pred_class_index]
+            # Reshape the features for XGBoost (2D matrix)
+            features = features.reshape(features.shape[0], -1)
 
-            prediction = predicted_class, pred_prob[0][pred_class_index]
+            # Make probability predictions using the XGBoost model
+            probabilities = xgb_model.predict_proba(features)
 
-            return redirect("test", value=str(prediction[0]), result=str(prediction[1]), id=image_id)
+            # Define class labels
+            # predicted_class = class_names[predictions[0]]
+
+            # Assuming 1 indicates Glaucoma and 0 indicates Non-Glaucoma
+            glaucoma_probability = probabilities[0, 1]
+
+            if glaucoma_probability > 0.5:
+                predicted_class = "Glaucoma [Positive]"
+            else:
+                predicted_class = "Non-Glaucoma [Negative]"
+
+            return redirect("test", value=str(glaucoma_probability), result=str(predicted_class), id=image_id)
         else:
             print("File does not exist")
 

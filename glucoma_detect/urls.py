@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path,include,re_path
-from glucoma_detect.settings import MEDIA_ROOT,STATIC_ROOT
+from django.urls import path, include, re_path
+from glucoma_detect.settings import MEDIA_ROOT, STATIC_ROOT
 from django.views.static import serve
 
 """ADMIN URLS ------------------------------------------------------------------------------------------------------"""
@@ -14,7 +14,8 @@ urlpatterns = [
 """WEBSITE URL -----------------------------------------------------------------------------------------------------"""
 
 urlpatterns += [
-    path('', include('website.urls'))
+    path('', include('website.urls')),
+    path('', include('doctor.urls'))
 ]
 
 """ STATIC AND MEDIA FILES ----------------------------------------------------------------------------------------- """

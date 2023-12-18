@@ -1,13 +1,15 @@
 from django import forms
-from .models import Images,AI_Response
+from .models import Images, AI_Response
 from django.contrib.auth.forms import UserCreationForm
-from django.db import models
-from django.contrib.auth.models import User
 
 # With this:
 from website.models import User
 
 
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
 
 
 class UserLoginForm(forms.Form):
@@ -21,6 +23,7 @@ class UserLoginForm(forms.Form):
 
 class UserCreation(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Enter your email'}))
+
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
@@ -33,7 +36,6 @@ class UserCreation(UserCreationForm):
         self.fields['password2'].widget.attrs.update({'placeholder': 'Confirm Password'})
 
 
-
 class ImagesForm(forms.ModelForm):
     class Meta:
         model = Images
@@ -42,11 +44,11 @@ class ImagesForm(forms.ModelForm):
 
 class DescriptionForm(forms.ModelForm):
     class Meta:
-        model=AI_Response
-        fields=['description']
+        model = AI_Response
+        fields = ['description']
 
 
 class AI_ResponseForm(forms.ModelForm):
     class Meta:
-        model=AI_Response
-        fields=['image','value','result','description']
+        model = AI_Response
+        fields = ['image', 'value', 'result', 'description']
