@@ -35,7 +35,7 @@ def home(request):
     records = None
 
     if request.user.is_authenticated:
-        records = AI_Response.objects.filter(userId=request.user.id)
+        records = AI_Response.objects.filter(user=request.user.id)
 
     context = {"images": images, "records": records}
     template_name = "website/home.html"
@@ -64,7 +64,8 @@ class Test(View):
                 image=image.image,
                 result=self.kwargs['result'],
                 value=self.kwargs['value'],
-                userId=self.request.user
+                user=self.request.user,
+                doctor=None
             )
             ai_response.save()
             messages.success(self.request, "Report send to Doctor")
@@ -135,7 +136,7 @@ def user_logout(request):
 def records_delete(request):
     if request.method == 'POST':
         messages.success(request, "Records Deleted")
-        AI_Response.objects.filter(userId=request.user.id).delete()
+        AI_Response.objects.filter(user=request.user.id).delete()
         return HttpResponseRedirect("/")
     else:
         return HttpResponseRedirect("login")
@@ -206,7 +207,7 @@ def image_detection(request):
 
         if os.path.exists(absolute_image_path):
             img = tf.io.read_file(absolute_image_path)
-            img = tf.image.decode_image(img)
+            img = tf.image.decode_jpeg(img, channels=3)
             img = tf.image.resize(img, [150, 150])  # Resize to match the input size of the model
             img = np.array(img)
             img = img / 255.0
