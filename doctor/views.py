@@ -31,10 +31,19 @@ def ReportHistoryView(request):
     ai_responses = AI_Response.objects.filter(doctor=request.user)
 
     if request.method == "POST":
-        form = AI_ResponseForm(request.POST)
+        form = DescriptionForm(request.POST)
         if form.is_valid():
+            instance = None
+            if 'ai_response_id' in request.POST:
+                instance = AI_Response.objects.get(pk=request.POST['ai_response_id'])
+
+            form = DescriptionForm(request.POST, instance=instance)
             form.save()
+            messages.success(request, 'Report Update successfully')
             return redirect('doctor:report-history')
+        else:
+            context = {'data': ai_responses, 'form': form}
+            return render(request, template_name, context)
     else:
         context = {'data': ai_responses}
         return render(request, template_name, context)
