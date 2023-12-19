@@ -113,6 +113,19 @@ def user_signup(request):
     return render(request, template_name, context)
 
 
+def doctor_signup(request):
+    fm = UserCreation(request.POST or None)
+    if fm.is_valid():
+        user = fm.save(commit=False)
+        user.is_doctor = True
+        user.save()
+        messages.success(request, "Registered SuccessFully")
+        return redirect('user-login')
+    template_name = 'website/doctor_signup.html'
+    context = {"form": fm}
+    return render(request, template_name, context)
+
+
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/user/login/')

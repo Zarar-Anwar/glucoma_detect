@@ -25,7 +25,10 @@
             <ul class="sidebar-menu toggle-menu list-items">
                 <li class="{% if request.path == '/doctor/dashboard/' %}page-active{% endif %}">
                     <a href="{% url 'doctor:dashboard' %}"><i class="la la-dashboard mr-2"></i>Dashboard</a></li>
-                <li class="{% if request.path == '/doctor/setting/' %}page-active{% endif %}"><a
+                <li class="{% if request.path == '/doctor/report/history/' %}page-active{% endif %}"><a
+                        href="{% url 'doctor:report-history' %}"><i class="la la-history mr-2 text-color-10"></i>Report History</a>
+                </li>
+                 <li class="{% if request.path == '/doctor/setting/' %}page-active{% endif %}"><a
                         href="{% url 'doctor:setting' %}"><i class="la la-cog mr-2 text-color-10"></i>User Settings</a>
                 </li>
                 <li><a href="{% url 'user-logout' %}"><i class="la la-power-off mr-2 text-color-11"></i>Logout</a>

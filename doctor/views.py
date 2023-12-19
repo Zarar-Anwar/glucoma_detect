@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from website.forms import UserUpdateForm, DescriptionForm
+from website.forms import UserUpdateForm, DescriptionForm, AI_ResponseForm
 from website.models import AI_Response
 
 
@@ -24,6 +24,20 @@ def DashboardView(request):
     context = {"responses": latest_responses}
     print(context)
     return render(request, template_name, context)
+
+
+def ReportHistoryView(request):
+    template_name = 'doctor/doctor_report_history.html'
+    ai_responses = AI_Response.objects.filter(doctor=request.user)
+
+    if request.method == "POST":
+        form = AI_ResponseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('doctor:report-history')
+    else:
+        context = {'data': ai_responses}
+        return render(request, template_name, context)
 
 
 # @method_decorator(login_required, name='dispatch')

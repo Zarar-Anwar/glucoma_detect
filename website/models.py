@@ -30,7 +30,8 @@ class AI_Response(models.Model):
     result = models.CharField(max_length=100)
     value = models.CharField(max_length=100)
     description = models.CharField(max_length=200, default=None, null=True)
-    userId = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ai_response_user')
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ai_response_doctor')
 
     def __str__(self):
         return f"AI Response ID {self.id}"

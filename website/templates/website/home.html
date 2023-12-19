@@ -19,6 +19,7 @@
 <!--MAIN CONTENT--------------------------------------------------------------->
 {% block content %}
 
+
 <!--HOME BANNER AREA-->
 <div class="rts-banner-area-one bg_image--1 bg_image rts-section-gap mb-0">
     <div class="container">
@@ -27,18 +28,21 @@
                 <div class="content-main-wrapper">
                     {% if user.is_authenticated %}
                     <h1 class="title">
-                        <br> Welcome <br>
-                        <span class="txt-rotate" data-period="1000"
-                              data-rotate="[ &quot;{{user.first_name}}&quot;,&quot;{{user.first_name}}&quot;]"><span
-                                class="wrap"></span></span>
+                         <span class="txt-rotate" data-period="1000"
+                              data-rotate="[ &quot;Welcome&quot;,&quot;{{user.username}}&quot;]"><span
+                                class="wrap">Glucoma-Detection</span></span>
+                        <br>
+                        Seeing Beyond Sight <br> AI for Eye Health <br>
+
                     </h1>
-                    {% endif %}
-                    <h1 class="title">
+                    {% else %}
+                     <h1 class="title">
                         Seeing Beyond Sight <br> AI for Eye Health <br>
                         <span class="txt-rotate" data-period="1000"
                               data-rotate="[ &quot;Artificial Inteligence&quot;,&quot;AI&quot;]"><span
                                 class="wrap">Glucoma-Detection</span></span>
                     </h1>
+                    {% endif %}
                     <p class="disc " style="margin-top:80px">
                         For Glucoma-Detection, we're passionate about your vision. Our AI-driven platform empowers you
                         to
