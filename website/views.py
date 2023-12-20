@@ -142,42 +142,6 @@ def records_delete(request):
         return HttpResponseRedirect("login")
 
 
-# View
-@doctor_required
-def doctor(request):
-    if request.method == "POST":
-        form = DescriptionForm(request.POST)
-        if form.is_valid():
-            description = form.cleaned_data['description']
-            ai_response = AI_Response.objects.get(id=request.POST['ai_response_id'])
-            ai_response.description = description
-            ai_response.save()
-            return redirect('doctor')
-    latest_responses = AI_Response.objects.filter(description=None).order_by('-id')
-    template_name = 'doctor/dashboard.html'
-    context = {"responses": latest_responses}
-    return render(request, template_name, context)
-
-
-# Description
-@doctor_required
-def description(request):
-    if request.method == "POST":
-        form = DescriptionForm(request.POST)
-        if form.is_valid():
-            ai_response = AI_Response(
-                description=form.cleaned_data['description']
-            )
-            ai_response.save()
-            messages.success(request, "Description Sent")
-            return redirect('doctor')
-        else:
-            messages.error(request, "Invalid Data")
-    else:
-        form = DescriptionForm()
-    return render(request, 'website/doctor_home.html', {'form': form})
-
-
 # AI-MODEL---------------------------------------------------------------------------->
 
 current_dir = os.path.dirname(os.path.realpath(__file__))

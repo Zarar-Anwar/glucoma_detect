@@ -20,8 +20,3 @@ urlpatterns += [
     path('user/records/delete/', views.records_delete, name='records-delete'),
 ]
 
-# Doctor Urls
-urlpatterns += [
-    path('doctor/view/', views.doctor, name='doctor'),
-    path('doctor/add/description/', views.description, name='description'),
-]

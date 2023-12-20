@@ -35,8 +35,8 @@ DASHBOARD-HOME
                 {% if data %}
 
                 {% for report in data %}
-                <div class="col-lg-3">
-                    <img src="{{report.image.url}}">
+                <div class="col-lg-3 text-center">
+                    <img width="200px" height="120px" src="{{report.image.url}}">
                     <h5>Value : {{report.value}}</h5>
                     <h5>Result : {{report.result}}</h5>
                     <form action="." method="POST" class="mt-3">

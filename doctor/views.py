@@ -17,8 +17,10 @@ def DashboardView(request):
             description = form.cleaned_data['description']
             ai_response = AI_Response.objects.get(id=request.POST['ai_response_id'])
             ai_response.description = description
+            ai_response.doctor = request.user
+            messages.success(request, 'Feedback Send')
             ai_response.save()
-            return redirect('doctor')
+            return redirect('doctor:dashboard')
     latest_responses = AI_Response.objects.filter(description=None).order_by('-id')
     template_name = 'doctor/dashboard.html'
     context = {"responses": latest_responses}
