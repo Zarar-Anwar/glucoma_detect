@@ -29,7 +29,7 @@
                                     {% if user.is_user %}
                                       <li><a href="{% url 'home' %}">Login</a></li>
                                     {% elif user.is_doctor %}
-                                      <li><a href="{% url 'doctor' %}">Login</a></li>
+                                      <li><a href="{% url 'doctor:dashboard' %}">Login</a></li>
                                     {% endif %}
                                   {% else %}
                                     <li><a href="{% url 'user-login' %}">Login</a></li>

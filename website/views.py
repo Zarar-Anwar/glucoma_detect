@@ -90,7 +90,7 @@ def user_login(request):
                     if (user.is_user):
                         return HttpResponseRedirect("/")
                     else:
-                        return HttpResponseRedirect("/doctor/view/")
+                        return HttpResponseRedirect("/doctor/dashboard/")
             else:
                 messages.error(request, "Invalid Username and Password")
         else:
