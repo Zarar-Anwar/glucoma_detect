@@ -1,45 +1,61 @@
 {% load static %}
- <div class="border-top border-grey"></div>
-<div class="rts-footer-area  bg-footer footer-one">
-        <div class="container rts-section-gapTop pb--100 pb_sm--30">
-            <div class="row text-center">
-                <div class="col-lg-12">
-                    <div class="footer-one-main-wrapper">
-                        <div class="footer-singl-wized left-logo ml-5">
-                            <div class="head">
-                                <a href="#">
-                                    <img width="10px" src="{% static 'images/logo/01.png' %}" alt="logo">
-                                </a>
-                            </div>
-                            <div class="body">
-                                <p class="dsic">
-                                   Glucoma Detect: An advanced AI for precise eye condition analysis, revolutionizing ophthalmology.
-                                </p>
 
-                            </div>
-                        </div>
-                        <div class="footer-singl-wized mr-5">
-                            <div class="head">
-                                <h6 class="title">Company</h6>
-                            </div>
-                            <div class="body">
-                                <ul class="menu">
-                                    <li><a href="{% url 'about' %}">About Us</a></li>
-                                    {% if user.is_authenticated %}
-                                    {% if user.is_user %}
-                                      <li><a href="{% url 'home' %}">Login</a></li>
-                                    {% elif user.is_doctor %}
-                                      <li><a href="{% url 'doctor:dashboard' %}">Login</a></li>
-                                    {% endif %}
-                                  {% else %}
-                                    <li><a href="{% url 'user-login' %}">Login</a></li>
-                                  {% endif %}
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!-- contact.html -->
+<footer class="bg1">
+    <div class="container p-t-40 p-b-70">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 p-t-50">
+                <h4 class="txt13 m-b-33">Menu</h4>
+                <ul class="m-b-70">
+                    <li class="txt14 m-b-14"><a href="{% url 'website:home' %}">Home</a></li>
+                    <li class="txt14 m-b-14"><a href="{% url 'website:menu' %}">Menu</a></li>
+                    <li class="txt14 m-b-14"><a href="{% url 'website:gallery' %}">Gallery</a></li>
+                    <li class="txt14 m-b-14"><a href="{% url 'website:about' %}">About</a></li>
+                    <li class="txt14 m-b-14"><a href="{% url 'website:contact' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-6 p-t-50">
+                <h4 class="txt13 m-b-33">Contact Us</h4>
+                <ul class="m-b-70">
+                    <li class="txt14 m-b-14">
+                        <i class="fa fa-map-marker fs-16 dis-inline-block size19" aria-hidden="true"></i>
+                        {{ website_content.address }}
+                    </li>
+                    <li class="txt14 m-b-14">
+                        <i class="fa fa-phone fs-16 dis-inline-block size19" aria-hidden="true"></i>
+                        {{ website_content.phone_number }}
+                    </li>
+                    <li class="txt14 m-b-14">
+                        <i class="fa fa-envelope fs-13 dis-inline-block size19" aria-hidden="true"></i>
+                        <a href="mailto:{{ website_content.email }}">{{ website_content.email }}</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+</footer>
+
+<div class="btn-back-to-top bg0-hov" id="myBtn">
+    <span class="symbol-btn-back-to-top">
+      <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+    </span>
+</div>
+
+<div id="dropDownSelect1"></div>
+
+<div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" data-dismiss="modal">
+        <div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">
+            &times;
+        </div>
+        <div class="wrap-video-mo-01">
+            <div class="w-full wrap-pic-w op-0-0">
+                <img src="{% static 'website/images/icons/video-16-9.jpg' %}" alt="IMG" />
+            </div>
+            <div class="video-mo-01">
+                <iframe src="https://www.youtube.com/embed/5k1hSu2gdKE?rel=0&amp;showinfo=0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

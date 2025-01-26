@@ -5,19 +5,97 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="developer" content="Exarth Dev">
+    <meta name="developer" content="Zaala Society">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/fav.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
-    <link rel="stylesheet preload" href="{% static 'css/plugins/fontawesome-6.css' %}" as="style">
-    <link rel="stylesheet preload" href="{% static 'css/plugins/unicons.css' %}" as="style">
-    <link rel="stylesheet preload" href="{% static 'css/plugins/swiper.min.css' %}" as="style">
-    <link rel="stylesheet preload" href="{% static 'css/vendor/metismenu.css' %}" as="style">
-    <link rel="stylesheet preload" href="{% static 'css/vendor/bootstrap.min.css' %}" as="style">
-
-    <!-- custom css style -->
-    <link rel="stylesheet preload" href="{% static 'css/style.css' %}" as="style">
-
+    <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/themify/themify-icons.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/slick/slick.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/lightbox2/css/lightbox.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <script nonce="b4d70149-a6b4-4c0a-a8f6-0698875028b6">
+        (function (w, d) {
+            !(function (j, k, l, m) {
+                j[l] = j[l] || {};
+                j[l].executed = [];
+                j.zaraz = {deferred: [], listeners: []};
+                j.zaraz.q = [];
+                j.zaraz._f = function (n) {
+                    return async function () {
+                        var o = Array.prototype.slice.call(arguments);
+                        j.zaraz.q.push({m: n, a: o});
+                    };
+                };
+                for (const p of ["track", "set", "debug"]) j.zaraz[p] = j.zaraz._f(p);
+                j.zaraz.init = () => {
+                    var q = k.getElementsByTagName(m)[0],
+                        r = k.createElement(m),
+                        s = k.getElementsByTagName("title")[0];
+                    s && (j[l].t = k.getElementsByTagName("title")[0].text);
+                    j[l].x = Math.random();
+                    j[l].w = j.screen.width;
+                    j[l].h = j.screen.height;
+                    j[l].j = j.innerHeight;
+                    j[l].e = j.innerWidth;
+                    j[l].l = j.location.href;
+                    j[l].r = k.referrer;
+                    j[l].k = j.screen.colorDepth;
+                    j[l].n = k.characterSet;
+                    j[l].o = new Date().getTimezoneOffset();
+                    if (j.dataLayer)
+                        for (const w of Object.entries(
+                            Object.entries(dataLayer).reduce(
+                                (x, y) => ({...x[1], ...y[1]}),
+                                {}
+                            )
+                        ))
+                            zaraz.set(w[0], w[1], {scope: "page"});
+                    j[l].q = [];
+                    for (; j.zaraz.q.length;) {
+                        const z = j.zaraz.q.shift();
+                        j[l].q.push(z);
+                    }
+                    r.defer = !0;
+                    for (const A of [localStorage, sessionStorage])
+                        Object.keys(A || {})
+                            .filter((C) => C.startsWith("_zaraz_"))
+                            .forEach((B) => {
+                                try {
+                                    j[l]["z_" + B.slice(7)] = JSON.parse(A.getItem(B));
+                                } catch {
+                                    j[l]["z_" + B.slice(7)] = A.getItem(B);
+                                }
+                            });
+                    r.referrerPolicy = "origin";
+                    r.src =
+                        "../../cdn-cgi/zaraz/sd0d9.js?z=" +
+                        btoa(encodeURIComponent(JSON.stringify(j[l])));
+                    q.parentNode.insertBefore(r, q);
+                };
+                ["complete", "interactive"].includes(k.readyState)
+                    ? zaraz.init()
+                    : j.addEventListener("DOMContentLoaded", zaraz.init);
+            })(w, d, "zarazData", "script");
+        })(window, document);
+    </script>
 
     {# TITLE---------------------------------------------------------------------------------------#}
     <title>{% block title %} Home {% endblock title %}</title>
@@ -27,10 +105,105 @@
 
     {% endblock css %}
 </head>
-<body style="background-color:#f8f9fa">
-
+<body class="animition" style="animation-duration: 1500ms; opacity: 1;">
 {# NAVBAR--------------------------------------------------------------------------------------#}
 {% include 'website/include/Navbar.html' %}
+
+<aside class="sidebar trans-0-4">
+    <!-- Button Hide sidebar -->
+    <button class="btn-hide-sidebar ti-close color0-hov trans-0-4"></button>
+
+    <!-- - -->
+    <ul class="menu-sidebar p-t-95 p-b-70">
+        <li class="t-center m-b-13">
+            <a href="" class="txt19">Home</a>
+        </li>
+
+        <li class="t-center m-b-13">
+            <a href="menu.html" class="txt19">Menu</a>
+        </li>
+
+        <li class="t-center m-b-13">
+            <a href="gallery.html" class="txt19">Gallery</a>
+        </li>
+
+        <li class="t-center m-b-13">
+            <a href="about.html" class="txt19">About</a>
+        </li>
+
+        <li class="t-center m-b-13">
+            <a href="blog.html" class="txt19">Blog</a>
+        </li>
+
+        <li class="t-center m-b-33">
+            <a href="contact.html" class="txt19">Contact</a>
+        </li>
+
+        <li class="t-center">
+            <!-- Button3 -->
+            <a href="reservation.html" class="btn3 flex-c-m size13 txt11 trans-0-4 m-l-r-auto">
+                Reservation
+            </a>
+        </li>
+    </ul>
+
+    <!-- - -->
+    <div class="gallery-sidebar t-center p-l-60 p-r-60 p-b-40">
+        <!-- - -->
+        <h4 class="txt20 m-b-33">
+            Gallery
+        </h4>
+
+        <!-- Gallery -->
+        <div class="wrap-gallery-sidebar flex-w">
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-01.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-01.jpg" alt="GALLERY">
+            </a>
+
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-02.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-02.jpg" alt="GALLERY">
+            </a>
+
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-03.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-03.jpg" alt="GALLERY">
+            </a>
+
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-05.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-05.jpg" alt="GALLERY">
+            </a>
+
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-06.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-06.jpg" alt="GALLERY">
+            </a>
+
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-07.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-07.jpg" alt="GALLERY">
+            </a>
+
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-09.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-09.jpg" alt="GALLERY">
+            </a>
+
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-10.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-10.jpg" alt="GALLERY">
+            </a>
+
+            <a class="item-gallery-sidebar wrap-pic-w" href="images/photo-gallery-11.jpg"
+               data-lightbox="gallery-footer">
+                <img src="images/photo-gallery-thumb-11.jpg" alt="GALLERY">
+            </a>
+        </div>
+    </div>
+</aside>
+
 
 {# CONTENT-------------------------------------------------------------------------------------#}
 {% block content %} {% endblock content %}
@@ -40,16 +213,39 @@
 {% block js %}
 
 {% endblock js %}
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script src="{% static 'js/vendor/jquery.min.js' %}" defer></script>
-<script src="{% static 'js/vendor/metismenu.js' %}" defer></script>
-<script src="{% static 'js/plugins/bootstrap.min.js' %}" defer></script>
-<script src="{% static 'js/plugins/swiper.js' %}" defer></script>
-<script src="{% static 'js/plugins/contact.form.js' %}" defer></script>
-<script src="{% static 'js/main.js' %}" defer></script>
+<!===============================================================================================-->
+<script data-cfasync="false" src="{% static 'vendor/email-decode.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'vendor/slick/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'vendor/parallax100/parallax100.js' %}"></script>
+<script type="text/javascript">
+    $('.parallax100').parallax100();
+</script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'vendor/lightbox2/js/lightbox.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'js/main.js' %}"></script>
+
+<script defer
+        src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+        integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+        data-cf-beacon='{"rayId":"907eff445b4ce910","version":"2025.1.0","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"cd0b4b3a733644fc843ef0b185f98241","b":1}'
+        crossorigin="anonymous"></script>
 </body>
-{% include 'website/message.html' %}
 </html>

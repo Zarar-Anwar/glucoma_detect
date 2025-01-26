@@ -1,0 +1,60 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+<!--TITLE------------------------------------------------------------------>
+{% block title %}
+    GALLERY
+{% endblock %}
+
+<!--MAIN CONTENT----------------------------------------------------------->
+{% block content %}
+    <a href="{% url 'website:home' %}">
+        <section class="bg-title-page flex-c-m p-t-160 p-b-80 p-l-15 p-r-15"
+                 style="background-image: url({% static 'images/bg-title-page-02.jpg' %});">
+            <h2 class="tit6 t-center">
+                Gallery
+            </h2>
+        </section>
+    </a>
+
+    <div class="section-gallery p-t-118 p-b-100">
+
+        <div class="wrap-gallery isotope-grid flex-w p-l-25 p-r-25"
+             style="position: relative; height: 710.775px;">
+            {% for item in gallery_items %}
+                <div class="item-gallery m-5 isotope-item bo-rad-10 hov-img-zoom events guests">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}">
+
+                    <div class="overlay-item-gallery trans-0-4 flex-c-m">
+                        <a class="btn-show-gallery flex-c-m fa fa-search" href="{{ item.image.url }}"
+                           data-lightbox="gallery"></a>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-danger mx-auto" style="font-size: 18px; font-weight: bold; color: red;">No gallery data
+                    available.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination flex-c-m flex-w p-l-15 p-r-15 m-t-24 m-b-50">
+            {% if gallery_items.has_previous %}
+                <a href="?page=1" class="item-pagination flex-c-m trans-0-4">First</a>
+                <a href="?page={{ gallery_items.previous_page_number }}" class="item-pagination flex-c-m trans-0-4">Previous</a>
+            {% endif %}
+            {% for num in gallery_items.paginator.page_range %}
+                {% if gallery_items.number == num %}
+                    <a class="item-pagination flex-c-m trans-0-4 active-pagination">{{ num }}</a>
+                {% else %}
+                    <a href="?page={{ num }}" class="item-pagination flex-c-m trans-0-4">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if gallery_items.has_next %}
+                <a href="?page={{ gallery_items.next_page_number }}" class="item-pagination flex-c-m trans-0-4">Next</a>
+                <a href="?page={{ gallery_items.paginator.num_pages }}"
+                   class="item-pagination flex-c-m trans-0-4">Last</a>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

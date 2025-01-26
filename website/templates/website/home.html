@@ -1,267 +1,491 @@
 {% extends 'website/base.html' %}
-
 {% load static %}
 
-<!--PAGE TITLE----------------------------------------------------------------->
-{% block title %} HOME {% endblock title %}
+{% block title %}
+    Home
+{% endblock %}
 
-
-{% block css %}
-<style>
-    .selected {
-      border: 10px solid blue;
-      opacity: 1;
-    }
-</style>
-{% endblock css %}
-
-
-<!--MAIN CONTENT--------------------------------------------------------------->
 {% block content %}
+    <div>
 
-
-<!--HOME BANNER AREA-->
-<div class="rts-banner-area-one bg_image--1 bg_image rts-section-gap mb-0">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="content-main-wrapper">
-                    {% if user.is_authenticated %}
-                    <h1 class="title">
-                         <span class="txt-rotate" data-period="1000"
-                              data-rotate="[ &quot;Welcome&quot;,&quot;{{user.username}}&quot;]"><span
-                                class="wrap">Glucoma-Detection</span></span>
-                        <br>
-                        Seeing Beyond Sight <br> AI for Eye Health <br>
-
-                    </h1>
-                    {% else %}
-                     <h1 class="title">
-                        Seeing Beyond Sight <br> AI for Eye Health <br>
-                        <span class="txt-rotate" data-period="1000"
-                              data-rotate="[ &quot;Artificial Inteligence&quot;,&quot;AI&quot;]"><span
-                                class="wrap">Glucoma-Detection</span></span>
-                    </h1>
-                    {% endif %}
-                    <p class="disc " style="margin-top:80px">
-                        For Glucoma-Detection, we're passionate about your vision. Our AI-driven platform empowers you
-                        to
-                        take control of your eye health. Upload your eye images, and let our technology provide you with
-                        accurate and actionable results, all from the comfort of your home
-                    </p>
-                    <div class="border-top border-grey"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--RTS TOOLS AREA-->
-<div class="rts-tools-area  bg-tools">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-conter-area">
-                    <h2 class="title mt-4">
-                        AI-Powered Eye Analysis <br>Revolutionizing Eye Health
-                    </h2>
-                    <p class="disc">
-                        Unlock insights into your vision health effortlessly with our AI-powered eye analysis tool
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt--25 g-5">
-            <form action="{% url 'image-detection' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="col-lg-3 col-md-3 mx-auto mt-4 col-sm-8 col-8 text-center">
-                    <input name="image" id="image" type="file" accept="image/*">
-                </div>
-                <div class="col-lg-6 col-md-6 mx-auto mt-4 col-sm-12 col-12 text-center">
-                    <button id="upload-button" class="btn btn-outline-primary" type="submit">
-                        Upload Image
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!--USER TEST RECORDS-->
-<div class="rts-tools-area  bg-tools">
-    {% if user.is_authenticated %}
-    {% if records %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 mt-5">
-                <div class="title-conter-area">
-                    <h2 class="title mt-4 text-success">
-                        Your Test Records
-                    </h2>
-                </div>
-            </div>
-            <div class="col-lg-2 mx-auto">
-                <form action="{% url 'records-delete' %}" method="POST">
-                    {% csrf_token %}
-                    <button id="clear-button" class="btn btn-outline-danger" type="submit">
-                        Clear Records
-                    </button>
-
-                </form>
-            </div>
-        </div>
-        <div class="row mt--25 g-5">
-            {% for report in records%}
-            <div class="col-lg-2 col-md-2 ml-5 col-sm-8 col-12">
-                <img src="{{report.image.url}}" alt="..." class="img-thumbnail">
-                <div class="mt-5">
-                    <h6>Result : {{report.result}}</h6>
-                    <h6>Value : {{report.value}}</h6>
-                    {% if report.description is not None %}
-                    <p>FeedBack:
-                        {{report.description}}
-                    </p>
-                    {% else %}
-                    <p class="text-danger">No Response from Doctor</p>
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="row">
-            <div class="col-lg-12 mt-5">
-                <div class="title-conter-area">
-                    <h2 class="title mt-5 text-danger">
-                        You Dont have Test Records
-                    </h2>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-    {% endif %}
-</div>
-
-
-<!--RTS FAQ AREA-->
-<div class="rts-faq-area rts-section-gap " style="background-color:#0e1424">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-conter-area">
-                    <h2 class="title">
-                        Questions About our GLucoma-Detect? <br>
-                        We have Answers!
-                    </h2>
-                </div>
-            </div>
-        </div>
-        <div class="row mt--60">
-            <div class="col-lg-12">
-                <div class="accordion-area-one">
-                    <div class="accordion" id="accordionExample">
-
-                        <div class="accordion-item" style="background-color:rgba(217, 217, 217, 0.06);">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" style="color:rgb(178, 203, 39);" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    What is the purpose of this AI-powered eye analysis model?
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Our AI-powered eye analysis model is designed to assist users in assessing and
-                                    monitoring their eye health. It can help detect common eye conditions and provide
-                                    valuable insights into one's vision.
-                                </div>
-                            </div>
+    <section class="section-slide">
+        <div class="wrap-slick1">
+            <div class="slick1">
+                <div
+                        class="item-slick1 item1-slick1"
+                        style="background-image: url('{% static "website/images/slide1-01.jpg" %}')"
+                >
+                    <div
+                            class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170"
+                    >
+              <span
+                      class="caption1-slide1 txt1 t-center animated visible-false m-b-15"
+                      data-appear="fadeInDown"
+              >
+                Welcome to
+              </span>
+                        <h2
+                                class="caption2-slide1 tit1 t-center animated visible-false m-b-37"
+                                data-appear="fadeInUp"
+                        >
+                            Pato Place
+                        </h2>
+                        <div
+                                class="wrap-btn-slide1 animated visible-false"
+                                data-appear="zoomIn"
+                        >
+                            <a href="menu.html" class="btn1 flex-c-m size1 txt3 trans-0-4">
+                                Look Menu
+                            </a>
                         </div>
-                        <div class="accordion-item" style="background-color:rgba(217, 217, 217, 0.06);">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" style="color:rgb(187, 255, 0);" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    How do I use the AI model to analyze my eye pictures?
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Using our AI model is simple. Just upload your eye pictures to the website, and the
-                                    model will analyze them automatically. You'll receive results that can include
-                                    information about the condition of your eyes and any potential issues.
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div
+                        class="item-slick1 item2-slick1"
+                        style="background-image: url('{% static "website/images/master-slides-02.jpg" %}')"
+                >
+                    <div
+                            class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170"
+                    >
+              <span
+                      class="caption1-slide1 txt1 t-center animated visible-false m-b-15"
+                      data-appear="rollIn"
+              >
+                Welcome to
+              </span>
+                        <h2
+                                class="caption2-slide1 tit1 t-center animated visible-false m-b-37"
+                                data-appear="lightSpeedIn"
+                        >
+                            Pato Place
+                        </h2>
+                        <div
+                                class="wrap-btn-slide1 animated visible-false"
+                                data-appear="slideInUp"
+                        >
+                            <a href="menu.html" class="btn1 flex-c-m size1 txt3 trans-0-4">
+                                Look Menu
+                            </a>
                         </div>
-                        <div class="accordion-item" style="background-color:rgba(217, 217, 217, 0.06);">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" style="color:rgb(195, 255, 0);" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree" aria-expanded="false"
-                                        aria-controls="collapseThree">
-                                    Is my data and personal information secure when using this service?
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Yes, we take data privacy seriously. Your uploaded images and personal information
-                                    are handled with the utmost care and confidentiality. We adhere to strict security
-                                    measures and comply with data protection regulations to ensure your data remains
-                                    secure.
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div
+                        class="item-slick1 item3-slick1"
+                        style="background-image: url('{% static "website/images/master-slides-01.jpg" %}')"
+                >
+                    <div
+                            class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170"
+                    >
+              <span
+                      class="caption1-slide1 txt1 t-center animated visible-false m-b-15"
+                      data-appear="rotateInDownLeft"
+              >
+                Welcome to
+              </span>
+                        <h2
+                                class="caption2-slide1 tit1 t-center animated visible-false m-b-37"
+                                data-appear="rotateInUpRight"
+                        >
+                            Pato Place
+                        </h2>
+                        <div
+                                class="wrap-btn-slide1 animated visible-false"
+                                data-appear="rotateIn"
+                        >
+                            <a href="menu.html" class="btn1 flex-c-m size1 txt3 trans-0-4">
+                                Look Menu
+                            </a>
                         </div>
-                        <div class="accordion-item" style="background-color:rgba(217, 217, 217, 0.06);">
-                            <h2 class="accordion-header" id="headingFour">
-                                <button class="accordion-button collapsed" style="color:rgb(238, 255, 0);" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapseFour" aria-expanded="false"
-                                        aria-controls="collapseFour">
-                                    What types of eye conditions can the AI model detect?
-                                </button>
-                            </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Our AI model is trained to detect a range of common eye conditions, including but
-                                    not limited to cataracts, glaucoma, diabetic retinopathy, and macular degeneration.
-                                    It can provide early indications of these conditions to help you take proactive
-                                    measures for your eye health.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item" style="background-color:rgba(217, 217, 217, 0.06);">
-                            <h2 class="accordion-header" id="headingFive">
-                                <button class="accordion-button collapsed" style="color:rgb(234, 255, 0);" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapseFive" aria-expanded="false"
-                                        aria-controls="collapseFive">
-                                    Is this AI eye analysis a substitute for visiting an eye specialist or optometrist?
-                                </button>
-                            </h2>
-                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
-                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    No, our AI-powered eye analysis is not a replacement for professional medical
-                                    advice. While it can provide valuable insights, it is essential to consult with an
-                                    eye specialist or healthcare professional for a comprehensive eye examination and
-                                    personalized guidance regarding your eye health.
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrap-slick1-dots"></div>
+        </div>
+    </section>
 
-
+    <section class="section-welcome bg1-pattern p-t-120 p-b-105">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 p-t-45 p-b-30">
+                    <div class="wrap-text-welcome t-center">
+                        <span class="tit2 t-center"> Italian Restaurant </span>
+                        <h3 class="tit3 t-center m-b-35 m-t-5">Welcome</h3>
+                        <p class="t-center m-b-22 size3 m-l-r-auto">
+                            Donec quis lorem nulla. Nunc eu odio mi. Morbi nec lobortis est.
+                            Sed fringilla, nunc sed imperdiet lacinia, nisl ante egestas mi,
+                            ac facilisis ligula sem id neque.
+                        </p>
+                        <a href="about.html" class="txt4">
+                            Our Story
+                            <i class="fa fa-long-arrow-right m-l-10" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 p-b-30">
+                    <div
+                            class="wrap-pic-welcome size2 bo-rad-10 hov-img-zoom m-l-r-auto"
+                    >
+                        <img
+                                src="{% static 'website/images/our-story-01.jpg' %}"
+                                alt="IMG-OUR"
+                        />
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    <section class="section-intro">
+        <div
+                class="header-intro parallax100 t-center p-t-135 p-b-158"
+                style="background-image: url('{% static "website/images/bg-intro-01.jpg" %}')"
+        >
+            <span class="tit2 p-l-15 p-r-15"> Discover </span>
+            <h3 class="tit4 t-center p-l-15 p-r-15 p-t-3">Pato Place</h3>
+        </div>
+        <div class="content-intro bg-white p-t-77 p-b-133">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 p-t-30">
+                        <div class="blo1">
+                            <div class="wrap-pic-blo1 bo-rad-10 hov-img-zoom">
+                                <a href="#"
+                                ><img
+                                        src="{% static 'website/images/intro-01.jpg' %}"
+                                        alt="IMG-INTRO"
+                                /></a>
+                            </div>
+                            <div class="wrap-text-blo1 p-t-35">
+                                <a href="#"
+                                ><h4 class="txt5 color0-hov trans-0-4 m-b-13">
+                                    Romantic Restaurant
+                                </h4></a
+                                >
+                                <p class="m-b-20">
+                                    Phasellus lorem enim, luctus ut velit eget, con-vallis
+                                    egestas eros.
+                                </p>
+                                <a href="#" class="txt4">
+                                    Learn More
+                                    <i
+                                            class="fa fa-long-arrow-right m-l-10"
+                                            aria-hidden="true"
+                                    ></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-t-30">
+                        <div class="blo1">
+                            <div class="wrap-pic-blo1 bo-rad-10 hov-img-zoom">
+                                <a href="#"
+                                ><img
+                                        src="{% static 'website/images/intro-02.jpg' %}"
+                                        alt="IMG-INTRO"
+                                /></a>
+                            </div>
+                            <div class="wrap-text-blo1 p-t-35">
+                                <a href="#"
+                                ><h4 class="txt5 color0-hov trans-0-4 m-b-13">
+                                    Delicious Food
+                                </h4></a
+                                >
+                                <p class="m-b-20">
+                                    Aliquam eget aliquam magna, quis posuere risus ac justo
+                                    ipsum nibh urna
+                                </p>
+                                <a href="#" class="txt4">
+                                    Learn More
+                                    <i
+                                            class="fa fa-long-arrow-right m-l-10"
+                                            aria-hidden="true"
+                                    ></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-t-30">
+                        <div class="blo1">
+                            <div class="wrap-pic-blo1 bo-rad-10 hov-img-zoom">
+                                <a href="#"
+                                ><img
+                                        src="{% static 'website/images/intro-04.jpg' %}"
+                                        alt="IMG-INTRO"
+                                /></a>
+                            </div>
+                            <div class="wrap-text-blo1 p-t-35">
+                                <a href="#"
+                                ><h4 class="txt5 color0-hov trans-0-4 m-b-13">
+                                    Red Wines You Love
+                                </h4></a
+                                >
+                                <p class="m-b-20">
+                                    Sed ornare ligula eget tortor tempor, quis porta tellus
+                                    dictum.
+                                </p>
+                                <a href="#" class="txt4">
+                                    Learn More
+                                    <i
+                                            class="fa fa-long-arrow-right m-l-10"
+                                            aria-hidden="true"
+                                    ></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-ourmenu bg2-pattern p-t-115 p-b-120">
+        <div class="container">
+            <div class="title-section-ourmenu t-center m-b-22">
+                <span class="tit2 t-center"> Discover </span>
+                <h3 class="tit5 t-center m-t-2">Our Menu</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div
+                                    class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30"
+                            >
+                                <img
+                                        src="{% static 'website/images/our-menu-01.jpg' %}"
+                                        alt="IMG-MENU"
+                                />
+
+                                <a href="#" class="btn2 flex-c-m txt5 ab-c-m size4">
+                                    Lunch
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div
+                                    class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30"
+                            >
+                                <img
+                                        src="{% static 'website/images/our-menu-05.jpg' %}"
+                                        alt="IMG-MENU"
+                                />
+
+                                <a href="#" class="btn2 flex-c-m txt5 ab-c-m size5">
+                                    Dinner
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div
+                                    class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30"
+                            >
+                                <img
+                                        src="{% static 'website/images/our-menu-13.jpg' %}"
+                                        alt="IMG-MENU"
+                                />
+
+                                <a href="#" class="btn2 flex-c-m txt5 ab-c-m size6">
+                                    Happy Hour
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div
+                                    class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30"
+                            >
+                                <img
+                                        src="{% static 'website/images/our-menu-08.jpg' %}"
+                                        alt="IMG-MENU"
+                                />
+
+                                <a href="#" class="btn2 flex-c-m txt5 ab-c-m size7">
+                                    Drink
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div
+                                    class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30"
+                            >
+                                <img
+                                        src="{% static 'website/images/our-menu-10.jpg' %}"
+                                        alt="IMG-MENU"
+                                />
+
+                                <a href="#" class="btn2 flex-c-m txt5 ab-c-m size8">
+                                    Starters
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div
+                                    class="item-ourmenu bo-rad-10 hov-img-zoom pos-relative m-t-30"
+                            >
+                                <img
+                                        src="{% static 'website/images/our-menu-16.jpg' %}"
+                                        alt="IMG-MENU"
+                                />
+
+                                <a href="#" class="btn2 flex-c-m txt5 ab-c-m size9">
+                                    Dessert
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-review p-t-115">
+        <div class="title-review t-center m-b-2">
+            <span class="tit2 p-l-15 p-r-15"> Customers Say </span>
+            <h3 class="tit8 t-center p-l-20 p-r-15 p-t-3">Review</h3>
+        </div>
+
+        <div class="wrap-slick3">
+            <div class="slick3">
+                <div class="item-slick3 item1-slick3">
+                    <div class="wrap-content-slide3 p-b-50 p-t-50">
+                        <div class="container">
+                            <div
+                                    class="pic-review size14 bo4 wrap-cir-pic m-l-r-auto animated visible-false"
+                                    data-appear="zoomIn"
+                            >
+                                <img
+                                        src="{% static 'website/images/avatar-01.jpg' %}"
+                                        alt="IGM-AVATAR"
+                                />
+                            </div>
+                            <div
+                                    class="content-review m-t-33 animated visible-false"
+                                    data-appear="fadeInUp"
+                            >
+                                <p class="t-center txt12 size15 m-l-r-auto">
+                                    “ We are lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit. Aenean tellus sem, mattis in pre-tium nec, fermentum
+                                    viverra dui ”
+                                </p>
+                                <div class="star-review fs-18 color0 flex-c-m m-t-12">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                </div>
+                                <div
+                                        class="more-review txt4 t-center animated visible-false m-t-32"
+                                        data-appear="fadeInUp"
+                                >
+                                    Marie Simmons ˗ New York
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-slick3 item2-slick3">
+                    <div class="wrap-content-slide3 p-b-50 p-t-50">
+                        <div class="container">
+                            <div
+                                    class="pic-review size14 bo4 wrap-cir-pic m-l-r-auto animated visible-false"
+                                    data-appear="zoomIn"
+                            >
+                                <img
+                                        src="{% static 'website/images/avatar-04.jpg' %}"
+                                        alt="IGM-AVATAR"
+                                />
+                            </div>
+                            <div
+                                    class="content-review m-t-33 animated visible-false"
+                                    data-appear="fadeInUp"
+                            >
+                                <p class="t-center txt12 size15 m-l-r-auto">
+                                    “ We are lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit. Aenean tellus sem, mattis in pre-tium nec, fermentum
+                                    viverra dui ”
+                                </p>
+                                <div class="star-review fs-18 color0 flex-c-m m-t-12">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                </div>
+                                <div
+                                        class="more-review txt4 t-center animated visible-false m-t-32"
+                                        data-appear="fadeInUp"
+                                >
+                                    Marie Simmons ˗ New York
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-slick3 item3-slick3">
+                    <div class="wrap-content-slide3 p-b-50 p-t-50">
+                        <div class="container">
+                            <div
+                                    class="pic-review size14 bo4 wrap-cir-pic m-l-r-auto animated visible-false"
+                                    data-appear="zoomIn"
+                            >
+                                <img
+                                        src="{% static 'website/images/avatar-05.jpg' %}"
+                                        alt="IGM-AVATAR"
+                                />
+                            </div>
+                            <div
+                                    class="content-review m-t-33 animated visible-false"
+                                    data-appear="fadeInUp"
+                            >
+                                <p class="t-center txt12 size15 m-l-r-auto">
+                                    “ We are lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit. Aenean tellus sem, mattis in pre-tium nec, fermentum
+                                    viverra dui ”
+                                </p>
+                                <div class="star-review fs-18 color0 flex-c-m m-t-12">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                    <i class="fa fa-star p-l-1" aria-hidden="true"></i>
+                                </div>
+                                <div
+                                        class="more-review txt4 t-center animated visible-false m-t-32"
+                                        data-appear="fadeInUp"
+                                >
+                                    Marie Simmons ˗ New York
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrap-slick3-dots m-t-30"></div>
+        </div>
+    </section>
+
+    <section
+            class="section-video parallax100"
+            style="background-image: url('{% static "website/images/bg-cover-video-02.jpg" %}')"
+    >
+        <div class="content-video t-center p-t-225 p-b-250">
+            <span class="tit2 p-l-15 p-r-15"> Discover </span>
+            <h3 class="tit4 t-center p-l-15 p-r-15 p-t-3">Our Video</h3>
+            <div
+                    class="btn-play ab-center size16 hov-pointer m-l-r-auto m-t-43 m-b-33"
+                    data-toggle="modal"
+                    data-target="#modal-video-01"
+            >
+                <div class="flex-c-m sizefull bo-cir bgwhite color1 hov1 trans-0-4">
+                    <i class="fa fa-play fs-18 m-l-2" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
-{% endblock content %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+<!--TITLE------------------------------------------------------------------>
+{% block title %}
+    MENU
+{% endblock %}
+
+<!--MAIN CONTENT----------------------------------------------------------->
+{% block content %}
+    <a href="{% url 'website:home' %}">
+        <section class="bg-title-page flex-c-m p-t-160 p-b-80 p-l-15 p-r-15"
+                 style="background-image: url({% static 'images/bg-title-page-02.jpg' %});">
+            <h2 class="tit6 t-center">
+                MENU
+            </h2>
+        </section>
+    </a>
+
+    <section class="section-mainmenu p-t-110 p-b-70 bg1-pattern">
+        <div class="container">
+            <div class="row">
+                {% for category, items in menu_items.items %}
+                    <div class="col-md-10 col-lg-6 p-r-35 p-r-15-lg m-l-r-auto">
+                        <div class="wrap-item-mainmenu p-b-22">
+                            <h3 class="tit-mainmenu tit10 p-b-25">
+                                {{ category }}
+                            </h3>
+
+                            {% for item in items %}
+                                <div class="item-mainmenu m-b-36">
+                                    <div class="flex-w flex-b m-b-3">
+                                        <a href="#" class="name-item-mainmenu txt21">
+                                            {{ item.name }}
+                                        </a>
+
+                                        <div class="line-item-mainmenu bg3-pattern"></div>
+
+                                        <div class="price-item-mainmenu txt22">
+                                            Rs {{ item.price }}
+                                        </div>
+                                    </div>
+
+                                    <span class="info-item-mainmenu txt23">
+                                        {{ item.description }}
+                                    </span>
+                                </div>
+                            {% empty %}
+<p class="text-danger text-center" style="font-size: 18px; font-weight: bold; color: red;">No items available in this category.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

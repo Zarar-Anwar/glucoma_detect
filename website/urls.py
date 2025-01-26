@@ -1,22 +1,14 @@
 from django.urls import path
-from . import views
+from rest_framework.urls import app_name
 
+from website.views import HomeView, MenuView, GalleryView, ContactView, AboutView
 
-# Website URLS
+app_name = "website"
+
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('about/', views.website_about, name='about'),
-    path('image/detection/', views.image_detection, name='image-detection'),
-    path('image/test/<str:result>/<str:value>/<str:id>/', views.Test.as_view(), name='test'),
-    # path('image/test/<result>/<value>/<id>/', views.Test.as_view(), name='test'),
+    path('', HomeView.as_view(), name='home'),
+    path('menu/', MenuView.as_view(), name='menu'),
+    path('gallery/', GalleryView.as_view(), name='gallery'),
+    path('contact/', ContactView.as_view(), name='contact'),
+    path('about/', AboutView.as_view(), name='about'),
 ]
-
-# User Urls
-urlpatterns += [
-    path('user/login/', views.user_login, name='user-login'),
-    path('user/signup/', views.user_signup, name='user-signup'),
-    path('doctor/signup/', views.doctor_signup, name='doctor-signup'),
-    path('user/logout/', views.user_logout, name='user-logout'),
-    path('user/records/delete/', views.records_delete, name='records-delete'),
-]
-
